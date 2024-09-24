@@ -48,12 +48,18 @@ import {
 import { RxReset } from "react-icons/rx";
 import { MdCompare } from "react-icons/md";
 import { FaImage, FaShare } from "react-icons/fa";
-import {  faFacebook,  faLinkedin,  faTwitter,  faWhatsapp,} from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebook,
+  faLinkedin,
+  faTwitter,
+  faWhatsapp,
+} from "@fortawesome/free-brands-svg-icons";
 import { Capacitor } from "@capacitor/core";
 import Footer from "../components/Footer/Footer";
 import NavBar from "../components/NavBar/NavBar";
 import NavBar1 from "../components/NavBar/NavBar1";
 import { Tensor } from "onnxruntime-web";
+import { useRouter } from "next/navigation";
 
 const ColorVisualiser = (props: any) => {
   // const [color, setColor] = useColor("hex", "#121212");
@@ -94,6 +100,8 @@ const ColorVisualiser = (props: any) => {
   const handleShowShareModal = () => setShowShareModal(true);
   const handleCloseShareModal = () => setShowShareModal(false);
 
+  const router = useRouter();
+
   const getImageEmbedding = async (file: any) => {
     handleShowModal();
     setType(false);
@@ -102,27 +110,29 @@ const ColorVisualiser = (props: any) => {
     await loadImage(file);
     await scrollTo(0, 0);
     try {
-      const res = await axios.post(
-        ` ${process.env.NEXT_PUBLIC_BACKEND_URL}/getembedding`,
-        formData
-      );
-      const data = await res.data;
-      // convert data into float32 array
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < data[i].length; j++) {
-          for (let k = 0; k < data[i][j].length; k++) {  
-            for (let l = 0; l < data[i][j][k].length; l++) {
-              data[i][j][k][l] = parseFloat(data[i][j][k][l]);
-            }
-          }
-        }
-      }
-      const data2 = data.flat(Infinity);
-      const data1 = new Float32Array(data2);
-      const tensor = new Tensor("float32", data1, [1, 256, 64, 64]);
-      setTensor(tensor);
-      handleCloseModal();
-      introJs().setOption("dontShowAgain", true).start();
+      // const res = await axios.post(
+      //   ` ${process.env.NEXT_PUBLIC_BACKEND_URL}/getembedding`,
+      //   formData
+      // );
+      // const data = await res.data;
+      // // convert data into float32 array
+      // for (let i = 0; i < data.length; i++) {
+      //   for (let j = 0; j < data[i].length; j++) {
+      //     for (let k = 0; k < data[i][j].length; k++) {
+      //       for (let l = 0; l < data[i][j][k].length; l++) {
+      //         data[i][j][k][l] = parseFloat(data[i][j][k][l]);
+      //       }
+      //     }
+      //   }
+      // }
+      // const data2 = data.flat(Infinity);
+      // const data1 = new Float32Array(data2);
+      // const tensor = new Tensor("float32", data1, [1, 256, 64, 64]);
+      // setTensor(tensor);
+      // handleCloseModal();
+      // introJs().setOption("dontShowAgain", true).start();
+
+      router.push("/paint-brands");
     } catch (e) {
       handleCloseModal();
       setError(
@@ -203,78 +213,87 @@ const ColorVisualiser = (props: any) => {
       console.log(e);
     }
   };
-const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: number, width: number, height: number }) => {
-
+  const handlePreloadedImage = (
+    imagedetail: any,
+    selectedArea?: { x: number; y: number; width: number; height: number }
+  ) => {
     handleShowModal();
     setType(true);
-    convertURLtoFile(imagedetail.image, imagedetail.name).then((file) => {
+    convertURLtoFile(imagedetail.image, imagedetail.name)
+      .then((file) => {
         setFile(file);
         const image = new window.Image(); // Use the native Image constructor
         image.src = URL.createObjectURL(file);
         image.onload = () => {
-            console.log("Image loaded.");
-            const { height, width, samScale } = handleImageScale(image);
-            console.log("Image dimensions and scale:", { height, width, samScale });
-            setModelScale({
-                height: height,
-                width: width,
-                samScale: samScale,
-            });
-            // Set image properties and update state
-            image.width = width;
-            image.height = height;
-            setImage(image);
-            undoRedo.setImage(image);
-            setInitialImage(image);
-            setTexture(null);
-            setMaskImg(null);
-            setTextureFile(null);
-            setColor("#121212");
-            scrollTo(0, 0);
-            // Create a canvas to draw the image and outline the selected area
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(image, 0, 0, width, height);
-                // Outline the selected area if defined
-                if (selectedArea) {
-                    const { x, y, width: selWidth, height: selHeight } = selectedArea;
-                    ctx.strokeStyle = 'red';
-                    ctx.lineWidth = 5;
-                    ctx.strokeRect(x, y, selWidth, selHeight);
-                }
-                // Update the image with the outlined selected area
-                const outlinedImage = canvas.toDataURL();
-                const outlineImg = new window.Image(); // Use the native Image constructor
-                outlineImg.src = outlinedImage;
-                outlineImg.onload = () => {
-                    setImage(outlineImg);
-                    undoRedo.setImage(outlineImg);
-                };
-            } else {
-                console.error("Failed to get canvas 2D context.");
+          console.log("Image loaded.");
+          const { height, width, samScale } = handleImageScale(image);
+          console.log("Image dimensions and scale:", {
+            height,
+            width,
+            samScale,
+          });
+          setModelScale({
+            height: height,
+            width: width,
+            samScale: samScale,
+          });
+          // Set image properties and update state
+          image.width = width;
+          image.height = height;
+          setImage(image);
+          undoRedo.setImage(image);
+          setInitialImage(image);
+          setTexture(null);
+          setMaskImg(null);
+          setTextureFile(null);
+          setColor("#121212");
+          scrollTo(0, 0);
+          // Create a canvas to draw the image and outline the selected area
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(image, 0, 0, width, height);
+            // Outline the selected area if defined
+            if (selectedArea) {
+              const { x, y, width: selWidth, height: selHeight } = selectedArea;
+              ctx.strokeStyle = "red";
+              ctx.lineWidth = 5;
+              ctx.strokeRect(x, y, selWidth, selHeight);
             }
-            Promise.resolve(loadNpyTensor(imagedetail.image_embedding, "float32")).then((embedding) => {
-                setTensor(embedding);
-            }).catch((error) => {
-                console.error("Error loading tensor data:", error);
+            // Update the image with the outlined selected area
+            const outlinedImage = canvas.toDataURL();
+            const outlineImg = new window.Image(); // Use the native Image constructor
+            outlineImg.src = outlinedImage;
+            outlineImg.onload = () => {
+              setImage(outlineImg);
+              undoRedo.setImage(outlineImg);
+            };
+          } else {
+            console.error("Failed to get canvas 2D context.");
+          }
+          Promise.resolve(loadNpyTensor(imagedetail.image_embedding, "float32"))
+            .then((embedding) => {
+              setTensor(embedding);
+            })
+            .catch((error) => {
+              console.error("Error loading tensor data:", error);
             });
-            setTimeout(() => {
-                console.log("Closing modal and starting introJs.");
-                handleCloseModal();
-                introJs().setOption("dontShowAgain", true).start();
-            }, 3000);
+          setTimeout(() => {
+            console.log("Closing modal and starting introJs.");
+            handleCloseModal();
+            introJs().setOption("dontShowAgain", true).start();
+          }, 3000);
         };
         image.onerror = (error) => {
-            console.error("Error loading image:", error);
+          console.error("Error loading image:", error);
         };
-    }).catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error converting URL to file:", error);
-    });
-};
-
+      });
+  };
 
   const applyColor = async (
     image: HTMLImageElement,
@@ -312,6 +331,7 @@ const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: n
       console.log(e);
     }
   };
+
   const applyTexture = async (
     image: HTMLImageElement,
     maskImg: HTMLImageElement,
@@ -348,6 +368,7 @@ const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: n
       console.log(e);
     }
   };
+
   const handleTextureClick = (texture: any) => {
     // load image
     if (!image) return;
@@ -369,22 +390,26 @@ const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: n
       console.log(error);
     }
   };
+
   const handleUndo = () => {
     const image = undoRedo!.undo();
     if (image instanceof HTMLImageElement) {
       setImage(image);
     }
   };
+
   const handleRedo = () => {
     const image = undoRedo!.redo();
     if (image instanceof HTMLImageElement) {
       setImage(image);
     }
   };
+
   const handleReset = () => {
     setImage(initialImage);
     undoRedo!.reset();
   };
+
   const shareImage = async () => {
     if (
       Capacitor.getPlatform() === "android" ||
@@ -439,6 +464,7 @@ const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: n
     }
     // await handleCloseShareModal();
   };
+
   const handleClose = () => {
     setFile(null);
     setImage(null);
@@ -447,10 +473,13 @@ const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: n
     setModelScale(null);
     undoRedo!.reset();
   };
+
   return (
     <>
       {!file && <NavBar />}
+
       {file && <NavBar1 handleClose={handleClose} />}
+
       <div className={`${file ? "colorvisualiser" : ""} py-5 pb-5`}>
         {!file && (
           <div className="colorvisualiser__container container py-md-2 py-lg-5">
@@ -896,6 +925,7 @@ const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: n
             </Offcanvas>
           </>
         )}
+
         {showModal && file && (
           <Modal
             show={showModal}
@@ -954,6 +984,7 @@ const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: n
             </Modal.Body>
           </Modal>
         )}
+
         <Modal show={error != null} centered onHide={() => setError(null)}>
           <Modal.Body>
             <div className="fw-bold fw-capitalize text-center text-danger">
@@ -962,6 +993,7 @@ const handlePreloadedImage = (imagedetail: any, selectedArea?: { x: number, y: n
           </Modal.Body>
         </Modal>
       </div>
+
       {!file && <Footer />}
     </>
   );
