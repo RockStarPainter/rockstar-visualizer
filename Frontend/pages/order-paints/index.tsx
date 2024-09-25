@@ -99,7 +99,7 @@ const OrderPage = () => {
         <Modal.Header closeButton>
           <Modal.Title className="text-center w-100">Order Form</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ backgroundColor: "white" }}>
           <Form onSubmit={handleSubmit(onSubmit)}>
             {/* First Name */}
             <Form.Group className="mb-3" controlId="formFirstName">
@@ -127,7 +127,7 @@ const OrderPage = () => {
                 isInvalid={!!errors.lastName}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.lastName?.message?.toString() || ''}
+                {errors.lastName?.message?.toString() || ""}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -147,7 +147,7 @@ const OrderPage = () => {
                 isInvalid={!!errors.email}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.email?.message?.toString() || ''}
+                {errors.email?.message?.toString() || ""}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -186,7 +186,7 @@ const OrderPage = () => {
                 <option value="Professional">Professional</option>
               </Form.Control>
               <Form.Control.Feedback type="invalid">
-                {errors.whoAreYou?.message?.toString() || ''}
+                {errors.whoAreYou?.message?.toString() || ""}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -206,7 +206,7 @@ const OrderPage = () => {
                 <option value="UK">UK</option>
               </Form.Control>
               <Form.Control.Feedback type="invalid">
-                {errors.country?.message?.toString() || ''}
+                {errors.country?.message?.toString() || ""}
               </Form.Control.Feedback>
             </Form.Group>
 
