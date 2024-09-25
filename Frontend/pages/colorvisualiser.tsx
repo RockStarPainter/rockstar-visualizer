@@ -60,6 +60,8 @@ import NavBar from "../components/NavBar/NavBar";
 import NavBar1 from "../components/NavBar/NavBar1";
 import { Tensor } from "onnxruntime-web";
 import { useRouter } from "next/navigation";
+import PaintSelectionPage from "./paint-brands";
+import { useColorContext } from "../contexts/ColorContext";
 
 const ColorVisualiser = (props: any) => {
   // const [color, setColor] = useColor("hex", "#121212");
@@ -102,6 +104,8 @@ const ColorVisualiser = (props: any) => {
 
   const router = useRouter();
 
+  const { selectedColors } = useColorContext(); // Use the context
+
   const getImageEmbedding = async (file: any) => {
     handleShowModal();
     setType(false);
@@ -130,9 +134,14 @@ const ColorVisualiser = (props: any) => {
       // const tensor = new Tensor("float32", data1, [1, 256, 64, 64]);
       // setTensor(tensor);
       // handleCloseModal();
+
+      setTimeout(() => {
+        handleCloseModal();
+      }, 2000);
+
       // introJs().setOption("dontShowAgain", true).start();
 
-      router.push("/paint-brands");
+      // router.push("/paint-brands");
     } catch (e) {
       handleCloseModal();
       setError(
@@ -542,6 +551,7 @@ const ColorVisualiser = (props: any) => {
           <>
             <div className="colorvisualiser__container container-fluid m-0 p-0">
               <div className="row m-0 p-0 align-items-center">
+                {/* left side  */}
                 <div className="col-12 col-lg-8 colorvisualiser__container__left">
                   <Stage
                     handleShowLoader={handleShowLoader}
@@ -551,7 +561,17 @@ const ColorVisualiser = (props: any) => {
                     showSlider={showSlider}
                   />
                 </div>
+
+                {/* right side  */}
                 <div className="col-12 col-lg-4 colorvisualiser__container__right mt-3 mt-lg-0">
+                  {/* place order button  */}
+                  <div className="colorvisualiser__tools_container mb-4">
+                    <button className="w-100 btn btn-primary" type="button" onClick={() => router.push('/order-paints')}>
+                      Order Paints
+                    </button>
+                  </div>
+
+                  {/* tools section  */}
                   <div className="colorvisualiser__tools_container mb-4">
                     <Card
                       className="border-2 shadow-sm"
@@ -601,6 +621,8 @@ const ColorVisualiser = (props: any) => {
                       </Card.Body>
                     </Card>
                   </div>
+
+                  {/* paint selection section  */}
                   <div className="colorvisualiser__color_container mb-4">
                     <Card className="border-2 shadow-sm ">
                       <Card.Title className="text-center fw-bold mt-2">
@@ -622,7 +644,7 @@ const ColorVisualiser = (props: any) => {
                             data-step="2"
                           />
                         )}
-                        {colordata.map((color: any, index: number) => {
+                        {selectedColors.map((color: any, index: number) => {
                           return (
                             <Button
                               className="colorvisualiser__color_button"
@@ -648,6 +670,8 @@ const ColorVisualiser = (props: any) => {
                       </Card.Body>
                     </Card>
                   </div>
+
+                  {/* texture selection section  */}
                   <div className="colorvisualiser__texture_container">
                     <Card className="border-2 shadow-sm">
                       <Card.Title className="text-center fw-bold mt-2">
@@ -710,6 +734,8 @@ const ColorVisualiser = (props: any) => {
                 </div>
               </div>
             </div>
+
+            {/* share modal  */}
             <Modal
               show={showShareModal}
               centered
@@ -801,27 +827,34 @@ const ColorVisualiser = (props: any) => {
                 )}
               </Modal.Body>
             </Modal>
+
+            {/* color selection modal  */}
             <Modal
               show={showColorModal}
               onHide={handleCloseColorModal}
               centered
+              size="xl" // This increases the width of the modal
+              dialogClassName="modal-custom" // Custom class for fixed height
             >
-              <Modal.Body>
-                <div className="fw-bold text-center mb-2">Select Color</div>
-                <ColorPicker color={colour} onChange={setColour} />
-                <Button
-                  className="mt-2 mx-auto d-block"
-                  onClick={() => {
-                    setColor(colour.hex);
-                    setTexture(null);
-                    toast.success("Color Selected");
-                    handleCloseColorModal();
-                  }}
-                >
-                  Select Color
-                </Button>
+              <Modal.Body style={{ maxHeight: "80vh", overflowY: "auto" }}>
+                <div className="fw-bold text-center mb-2">
+                  Select Your Paints
+                </div>
+                <PaintSelectionPage
+                  handleCloseColorModal={handleCloseColorModal}
+                />
               </Modal.Body>
+
+              {/* Custom Modal Styles */}
+              <style jsx>{`
+                .modal-custom {
+                  width: 90%; /* Adjust width */
+                  max-width: 1200px; /* Maximum width */
+                }
+              `}</style>
             </Modal>
+
+            {/* texture selection modal  */}
             <Offcanvas
               show={showOffcanvas}
               onHide={handleCloseOffCanvas}

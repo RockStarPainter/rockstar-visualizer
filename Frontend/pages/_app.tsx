@@ -10,6 +10,7 @@ import AppContextProvider from "../utils/hooks/context";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Analytics } from "@vercel/analytics/react";
+import { ColorProvider } from "../contexts/ColorContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [model, setModel] = useState<ort.InferenceSession | null>();
@@ -37,16 +38,18 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <AppContextProvider>
-        <>
-          <ToastContainer
-            position="bottom-left"
-            progressStyle={{ visibility: "hidden" }}
-            autoClose={1000}
-          />
+        <ColorProvider>
+          <>
+            <ToastContainer
+              position="bottom-left"
+              progressStyle={{ visibility: "hidden" }}
+              autoClose={1000}
+            />
 
-          <Component {...pageProps} model={model} vithModel={vithModel} />
-          <Analytics />
-        </>
+            <Component {...pageProps} model={model} vithModel={vithModel} />
+            <Analytics />
+          </>
+        </ColorProvider>
       </AppContextProvider>
     </>
   );
