@@ -151,7 +151,7 @@ const ColorVisualiser = (props: any) => {
       }, 2000);
       console.log(e);
     }
-  };
+  };  
 
   const loadImage = async (imageFile: any) => {
     try {

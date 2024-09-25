@@ -29,7 +29,9 @@ interface PaintSelectionPageProps {
   handleCloseColorModal: () => void;
 }
 
-const PaintSelectionPage: React.FC<PaintSelectionPageProps> = ({ handleCloseColorModal }) => {
+const PaintSelectionPage: React.FC<PaintSelectionPageProps> = ({
+  handleCloseColorModal,
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("red");
   const [companyPaints, setCompanyPaints] = useState<any>(null);
   const [selectedCompany, setSelectedCompany] = useState<string>("");
@@ -76,7 +78,7 @@ const PaintSelectionPage: React.FC<PaintSelectionPageProps> = ({ handleCloseColo
 
   const renderPaints = () => {
     return companyPaints[selectedCategory]?.map((paint: any, index: number) => (
-      <Col key={index} xs={3} className="mb-4">
+      <Col key={index} xs={6} sm={4} md={3} lg={2} className="mb-4">
         <Card
           className={`p-2 paint-card position-relative ${
             selectedColors.some((p) => p.code === paint.code) ? "selected" : ""
@@ -128,7 +130,9 @@ const PaintSelectionPage: React.FC<PaintSelectionPageProps> = ({ handleCloseColo
         {paints.map((company, index) => (
           <Col
             key={index}
-            xs={3}
+            xs={6}
+            sm={4}
+            md={3}
             className="text-center d-flex flex-column align-items-center"
           >
             <div
@@ -175,13 +179,14 @@ const PaintSelectionPage: React.FC<PaintSelectionPageProps> = ({ handleCloseColo
         ))}
       </Row>
 
+      {/* Color Categories */}
       <Row className="mb-4">
         {colorCategories.map((category) => (
-          <Col key={category.key} className="">
+          <Col key={category.key} xs={6} sm={4} md={2}>
             <Button
               variant={selectedCategory === category.key ? "dark" : "light"}
               onClick={() => handleCategorySelection(category.key)}
-              className="w-full"
+              className="w-100 mb-2"
             >
               {category.name}
             </Button>
@@ -191,14 +196,15 @@ const PaintSelectionPage: React.FC<PaintSelectionPageProps> = ({ handleCloseColo
 
       <Row>
         {/* Main Paints Grid that scrolls with the page */}
-        <Col xs={9} className="px-5 py-3">
+        <Col xs={12} md={9} className="px-5 py-3">
           {/* Paint Grid */}
           <Row>{renderPaints()}</Row>
         </Col>
 
         {/* Saved Colors Section - Sticky with its own scroll */}
         <Col
-          xs={3}
+          xs={12}
+          md={3}
           style={{
             position: "sticky",
             top: 0,

@@ -39,16 +39,15 @@ const OrderPage = () => {
     <Container fluid className="order-page py-4 bg-white">
       <Row>
         {/* Left Sidebar for Selected Colors */}
-        <Col xs={3} className="order-colors-section">
-          <div className="bg-light p-3">
+        <Col xs={12} md={4} className="order-colors-section mb-4 mb-md-0">
+          <div className="bg-light p-3 h-100">
             {/* "Save Your Order" button */}
-
             <Row className="mb-5">
               <Col>
                 <Button
                   variant="primary"
                   onClick={handleShowModal}
-                  className="float-right"
+                  className="w-100"
                 >
                   Save Your Order
                 </Button>
@@ -79,7 +78,7 @@ const OrderPage = () => {
         </Col>
 
         {/* Right Side for Selected Image */}
-        <Col xs={9} className="order-image-section">
+        <Col xs={12} md={8} className="order-image-section">
           <div className="image-wrapper">
             {/* Assuming you have a selected image, replace the src with dynamic image source */}
             <Image
@@ -139,7 +138,8 @@ const OrderPage = () => {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    value:
+                      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                     message: "Enter a valid email address",
                   },
                 })}
@@ -210,15 +210,6 @@ const OrderPage = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Check for promotional emails */}
-            {/* <Form.Group className="mb-3" controlId="formPromotionalEmails">
-              <Form.Check
-                type="checkbox"
-                {...register("promotionalEmails")}
-                label="Yes, I would like the opportunity to receive e-mails containing information, product updates, and more."
-              />
-            </Form.Group> */}
-
             <div className="text-center">
               <Button variant="primary" type="submit">
                 Submit Order
@@ -258,6 +249,17 @@ const OrderPage = () => {
           text-align: center;
           width: 100%;
         }
+
+        @media (max-width: 767px) {
+          .order-colors-section {
+            border-right: none;
+            border-bottom: 1px solid #e0e0e0;
+          }
+          .order-image-section {
+            padding-left: 0;
+          }
+        }
+
         .text-center {
           display: flex;
           justify-content: center;
