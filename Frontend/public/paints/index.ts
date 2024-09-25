@@ -1,6 +1,7 @@
 export const paints = [
   {
     companyName: "Sherwin Williams",
+    logo: "/images/sherwin-logo.png",
     paints: {
       red: [
         {
@@ -2502,6 +2503,7 @@ export const paints = [
   },
   {
     companyName: "Benjamin Moore",
+    logo: "/images/benjamin-logo.png",
     paints: {
       red: [
         {

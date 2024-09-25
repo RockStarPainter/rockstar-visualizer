@@ -9,13 +9,23 @@ function NavBar1(props: any) {
   return (
     <Navbar bg="transparent box-shadow" className={styles.navbar} expand="lg">
       <Container>
-        <Link
+        {/* <Link
           className={`${styles.navbarbrand} ${styles.navlink}`}
           onClick={props.handleClose}
           href="/"
         >
           AAkar
-        </Link>
+        </Link> */}
+
+        <div className="d-flex items-center">
+          <Link href="/" onClick={props.handleClose} className="ms-0 h-8 md:h-12 w-40">
+            <img
+              src="/images/rockstar-logo.png"
+              alt="Company Logo"
+              className="w-full h-full object-contain"
+            />
+          </Link>
+        </div>
         <Button
           variant="outline-primary"
           className={`${styles.closebtn}`}

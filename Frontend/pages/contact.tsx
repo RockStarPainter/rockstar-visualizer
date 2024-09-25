@@ -69,7 +69,6 @@ function Contact() {
   };
   return (
     <>
-      <NavBar />
 
       <Container fluid className="p-0 py-4 ">
         <h2 className="contact-subtitle text-center">
@@ -147,7 +146,6 @@ function Contact() {
           </form>
         </Container>
       </Container>
-      <Footer />
     </>
   );
 }

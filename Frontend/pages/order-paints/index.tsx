@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image"; // For selected image
 import { useColorContext } from "../../contexts/ColorContext";
 import AppContext from "../../utils/hooks/createContext";
+import { toast } from "react-toastify";
 
 const OrderPage = () => {
   const { selectedColors } = useColorContext(); // Fetch the selected colors from context
@@ -30,29 +31,30 @@ const OrderPage = () => {
   // Handle form submission
   const onSubmit = (data: any) => {
     console.log(data); // Handle the form submission logic
-    alert("Order submitted!");
+    toast("Order submitted");
     handleCloseModal();
   };
 
   return (
-    <Container fluid className="order-page py-4">
-      {/* Top Section with "Save Your Order" button */}
-      <Row className="mb-4">
-        <Col>
-          <Button
-            variant="primary"
-            onClick={handleShowModal}
-            className="float-right"
-          >
-            Save Your Order
-          </Button>
-        </Col>
-      </Row>
-
+    <Container fluid className="order-page py-4 bg-white">
       <Row>
         {/* Left Sidebar for Selected Colors */}
         <Col xs={3} className="order-colors-section">
           <div className="bg-light p-3">
+            {/* "Save Your Order" button */}
+
+            <Row className="mb-5">
+              <Col>
+                <Button
+                  variant="primary"
+                  onClick={handleShowModal}
+                  className="float-right"
+                >
+                  Save Your Order
+                </Button>
+              </Col>
+            </Row>
+
             <h5 className="fw-bold">Selected Colors</h5>
             <ul className="list-group">
               {selectedColors.length > 0 ? (
@@ -81,7 +83,7 @@ const OrderPage = () => {
           <div className="image-wrapper">
             {/* Assuming you have a selected image, replace the src with dynamic image source */}
             <Image
-              src={image} // Replace with dynamic image source
+              src={image || ""} // Replace with dynamic image source
               alt="Selected Room Design"
               layout="responsive"
               width={700}
@@ -111,7 +113,7 @@ const OrderPage = () => {
                 isInvalid={!!errors.firstName}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.firstName?.message}
+                {errors?.firstName?.message?.toString() || ""}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -125,7 +127,7 @@ const OrderPage = () => {
                 isInvalid={!!errors.lastName}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.lastName?.message}
+                {errors.lastName?.message?.toString() || ''}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -145,7 +147,7 @@ const OrderPage = () => {
                 isInvalid={!!errors.email}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.email?.message}
+                {errors.email?.message?.toString() || ''}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -165,7 +167,7 @@ const OrderPage = () => {
                 <option value="The Home Depot">The Home Depot</option>
               </Form.Control>
               <Form.Control.Feedback type="invalid">
-                {errors.buyPreference?.message}
+                {errors?.buyPreference?.message?.toString() || ""}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -184,7 +186,7 @@ const OrderPage = () => {
                 <option value="Professional">Professional</option>
               </Form.Control>
               <Form.Control.Feedback type="invalid">
-                {errors.whoAreYou?.message}
+                {errors.whoAreYou?.message?.toString() || ''}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -204,7 +206,7 @@ const OrderPage = () => {
                 <option value="UK">UK</option>
               </Form.Control>
               <Form.Control.Feedback type="invalid">
-                {errors.country?.message}
+                {errors.country?.message?.toString() || ''}
               </Form.Control.Feedback>
             </Form.Group>
 

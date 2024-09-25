@@ -140,8 +140,6 @@ const ColorVisualiser = (props: any) => {
       }, 2000);
 
       // introJs().setOption("dontShowAgain", true).start();
-
-      // router.push("/paint-brands");
     } catch (e) {
       handleCloseModal();
       setError(
@@ -433,7 +431,7 @@ const ColorVisualiser = (props: any) => {
       formData.append("upload_preset", "d5mvumcd");
       formData.append("cloud_name", "dbvxdjjpr");
       const res = await axios.post(
-        "https://api.cloudinary.com/v1_1/dbvxdjjpr/image/upload",
+        "https://api.cloudinary.com/v1_1/dubh6rxft/image/upload",
         formData
       );
       const data = await res.data;
@@ -485,10 +483,6 @@ const ColorVisualiser = (props: any) => {
 
   return (
     <>
-      {!file && <NavBar />}
-
-      {file && <NavBar1 handleClose={handleClose} />}
-
       <div className={`${file ? "colorvisualiser" : ""} py-5 pb-5`}>
         {!file && (
           <div className="colorvisualiser__container container py-md-2 py-lg-5">
@@ -566,7 +560,11 @@ const ColorVisualiser = (props: any) => {
                 <div className="col-12 col-lg-4 colorvisualiser__container__right mt-3 mt-lg-0">
                   {/* place order button  */}
                   <div className="colorvisualiser__tools_container mb-4">
-                    <button className="w-100 btn btn-primary" type="button" onClick={() => router.push('/order-paints')}>
+                    <button
+                      className="w-100 btn btn-primary"
+                      type="button"
+                      onClick={() => router.push("/order-paints")}
+                    >
                       Order Paints
                     </button>
                   </div>
@@ -626,24 +624,9 @@ const ColorVisualiser = (props: any) => {
                   <div className="colorvisualiser__color_container mb-4">
                     <Card className="border-2 shadow-sm ">
                       <Card.Title className="text-center fw-bold mt-2">
-                        Color Palette
+                        Select Your Paint Colors
                       </Card.Title>
                       <Card.Body className="d-flex flex-wrap gap-2 justify-content-center align-items-center ">
-                        {color ? (
-                          <Button
-                            className="p-0  colorvisualiser__color_button--active"
-                            style={{ backgroundColor: color }}
-                            data-intro="Selected Color will be shown here"
-                            data-step="2"
-                          ></Button>
-                        ) : (
-                          <FaImage
-                            className=" colorvisualiser__color_button"
-                            style={{ color: "#000" }}
-                            data-intro="Selected Color will be shown here"
-                            data-step="2"
-                          />
-                        )}
                         {selectedColors.map((color: any, index: number) => {
                           return (
                             <Button
@@ -741,7 +724,9 @@ const ColorVisualiser = (props: any) => {
               centered
               onHide={handleCloseShareModal}
             >
-              <Modal.Body>
+              <Modal.Body
+              style={{backgroundColor: "white"}}
+              >
                 {/* Show loader */}
                 {showLoader ? (
                   <div className="d-flex justify-content-center align-items-center fw-bold mt-2">
@@ -836,7 +821,9 @@ const ColorVisualiser = (props: any) => {
               size="xl" // This increases the width of the modal
               dialogClassName="modal-custom" // Custom class for fixed height
             >
-              <Modal.Body style={{ maxHeight: "80vh", overflowY: "auto" }}>
+              <Modal.Body
+                style={{ maxHeight: "80vh", overflowY: "auto", margin: "2%", backgroundColor: "white" }}
+              >
                 <div className="fw-bold text-center mb-2">
                   Select Your Paints
                 </div>
@@ -966,8 +953,12 @@ const ColorVisualiser = (props: any) => {
             centered
             backdrop="static"
           >
-            <Modal.Body>
-              <div className="d-flex justify-content-between align-items-center ps-3">
+            <Modal.Body
+                style={{ backgroundColor: "white", borderRadius: "5px" }}
+            >
+              <div
+                className="d-flex justify-content-between align-items-center ps-3"
+              >
                 <Image
                   src={URL.createObjectURL(file)}
                   alt="Uploaded Image"
@@ -1026,8 +1017,6 @@ const ColorVisualiser = (props: any) => {
           </Modal.Body>
         </Modal>
       </div>
-
-      {!file && <Footer />}
     </>
   );
 };

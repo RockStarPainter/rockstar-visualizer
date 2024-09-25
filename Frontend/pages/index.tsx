@@ -17,7 +17,6 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home(props: any) {
   return (
     <>
-      <NavBar />
       <Container fluid className="p-0">
         <Parallax
           className="parallax-container"
@@ -26,7 +25,7 @@ export default function Home(props: any) {
         >
           <Container className="parallax-text">
             <Container className="parallax-title text-center">
-              <Image src={HindiLogo} alt="Hindi Logo" />
+              {/* <Image src={HindiLogo} alt="Hindi Logo" /> */}
             </Container>
           </Container>
         </Parallax>
@@ -55,7 +54,6 @@ export default function Home(props: any) {
 
         <Testimonials testimonialData={testimonialdata} />
       </Container>
-      <Footer />
     </>
   );
 }

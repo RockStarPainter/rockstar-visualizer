@@ -8,7 +8,6 @@ import NavBar from "../components/NavBar/NavBar";
 function About() {
   return (
     <>
-      <NavBar />
       <Container fluid className="p-0">
         <Parallax
           className="parallax-container"
@@ -44,7 +43,6 @@ function About() {
           </Link>
         </Container>
       </Container>
-      <Footer />
     </>
   );
 }

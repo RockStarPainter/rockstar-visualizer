@@ -1,202 +1,18 @@
-// import React, { useEffect, useState } from "react";
-// import { Button, Card, Container, Row, Col, Form } from "react-bootstrap";
-// import { useRouter } from "next/navigation";
-// import { paints } from "../../public/paints";
-// import { FaCheckCircle } from "react-icons/fa"; // For tick icon
-
-// const colorCategories = [
-//   { name: "Red", key: "red" },
-//   { name: "Orange", key: "orange" },
-//   { name: "Yellow", key: "yellow" },
-//   { name: "Green", key: "green" },
-//   { name: "Blue", key: "blue" },
-//   { name: "Purple", key: "purple" },
-//   { name: "Neutral", key: "neutral" },
-//   { name: "White", key: "white" },
-// ];
-
-// const PaintSelectionPage = () => {
-//   const [selectedCategory, setSelectedCategory] = useState<string>("red");
-//   const [selectedColors, setselectedColors] = useState<any[]>([]);
-//   const [companyPaints, setCompanyPaints] = useState<any>(null);
-//   const [selectedCompany, setSelectedCompany] = useState<string>("");
-
-//   const router = useRouter();
-
-//   // Set default company on load
-//   useEffect(() => {
-//     if (paints.length > 0) {
-//       const firstCompany = paints[0];
-//       setSelectedCompany(firstCompany.companyName);
-//       setCompanyPaints(firstCompany.paints);
-//     }
-//   }, []);
-
-//   // Handle company selection change
-//   const handleCompanySelection = (
-//     event: React.ChangeEvent<HTMLSelectElement>
-//   ) => {
-//     const selectedCompanyName = event.target.value;
-//     setSelectedCompany(selectedCompanyName);
-
-//     const company = paints.find(
-//       (company) => company.companyName === selectedCompanyName
-//     );
-//     if (company) {
-//       setCompanyPaints(company.paints);
-//     } else {
-//       console.error("Company not found");
-//     }
-//   };
-
-//   if (!companyPaints) {
-//     return <div>Loading...</div>;
-//   }
-
-//   // Handle paint selection
-//   const handlePaintSelection = (paint: any) => {
-//     if (selectedColors.some((p) => p.code === paint.code)) {
-//       setselectedColors(selectedColors.filter((p) => p.code !== paint.code));
-//     } else {
-//       setselectedColors([...selectedColors, paint]);
-//     }
-//   };
-
-//   // Handle category selection
-//   const handleCategorySelection = (category: string) => {
-//     setSelectedCategory(category);
-//   };
-
-//   // Handle next button click
-//   const handleNext = () => {
-//     router.push("/nextPage");
-//   };
-
-//   const renderPaints = () => {
-//     return companyPaints[selectedCategory]?.map((paint: any, index: number) => (
-//       <Col key={index} xs={12} md={6} lg={3} className="mb-4">
-//         <Card
-//           className={`p-2 paint-card position-relative ${
-//             selectedColors.some((p) => p.code === paint.code) ? "selected" : ""
-//           }`}
-//           onClick={() => handlePaintSelection(paint)}
-//         >
-//           <div
-//             style={{
-//               backgroundColor: paint.hex,
-//               height: "100px",
-//               width: "100%",
-//               borderRadius: "8px",
-//             }}
-//           ></div>
-//           <div className="mt-2 text-center">
-//             <strong>{paint.name}</strong>
-//             <br />
-//             {paint.code}
-//           </div>
-
-//           {/* Show tick on selected paints */}
-//           {selectedColors.some((p) => p.code === paint.code) && (
-//             <FaCheckCircle
-//               size={24}
-//               color="black"
-//               style={{
-//                 position: "absolute",
-//                 top: "15px",
-//                 right: "15px",
-//               }}
-//             />
-//           )}
-//         </Card>
-//       </Col>
-//     ));
-//   };
-
-//   return (
-//     <Container fluid className="paint-selection-page">
-//       <Row>
-//         {/* Main Paints Grid that scrolls with the page */}
-//         <Col xs={12} className="p-3">
-//           <Row className="mb-4 align-items-center">
-//             <Col xs={8}>
-//               <h1 className="fw-bold">Browse Paint Colors</h1>
-//             </Col>
-//             <Col xs={4}>
-//               {/* Dropdown for selecting company */}
-//               <Form.Group controlId="companySelect">
-//                 <Form.Label className="fw-bold">Select Company</Form.Label>
-//                 <Form.Control
-//                   as="select"
-//                   value={selectedCompany}
-//                   onChange={handleCompanySelection}
-//                 >
-//                   {paints.map((company, index) => (
-//                     <option key={index} value={company.companyName}>
-//                       {company.companyName}
-//                     </option>
-//                   ))}
-//                 </Form.Control>
-//               </Form.Group>
-//             </Col>
-//           </Row>
-
-//           {/* Color Categories */}
-//           <Row className="mb-4">
-//             {colorCategories.map((category) => (
-//               <Col key={category.key} className="mb-3">
-//                 <Button
-//                   variant={selectedCategory === category.key ? "dark" : "light"}
-//                   onClick={() => handleCategorySelection(category.key)}
-//                   className="w-full"
-//                 >
-//                   {category.name}
-//                 </Button>
-//               </Col>
-//             ))}
-//           </Row>
-
-//           {/* Paint Grid */}
-//           <Row>{renderPaints()}</Row>
-//         </Col>
-//       </Row>
-
-//       {/* Custom Scrollbar CSS */}
-//       <style jsx>{`
-//         .paint-selection-page {
-//           overflow-y: auto;
-//           height: 100%;
-//         }
-//         .custom-scrollbar {
-//           scrollbar-width: thin;
-//           scrollbar-color: #007bff #e0e0e0;
-//         }
-
-//         .custom-scrollbar::-webkit-scrollbar {
-//           width: 10px;
-//         }
-
-//         .custom-scrollbar::-webkit-scrollbar-track {
-//           background: #e0e0e0;
-//         }
-
-//         .custom-scrollbar::-webkit-scrollbar-thumb {
-//           background-color: #007bff;
-//           border-radius: 20px;
-//           border: 3px solid #e0e0e0;
-//         }
-//       `}</style>
-//     </Container>
-//   );
-// };
-
-// export default PaintSelectionPage;
-
 import React, { useEffect, useState } from "react";
-import { Button, Card, Container, Row, Col, Form } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Container,
+  Row,
+  Col,
+  Form,
+  Image,
+} from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { paints } from "../../public/paints";
 import { FaCheckCircle } from "react-icons/fa"; // For tick icon
 import { useColorContext } from "../../contexts/ColorContext";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 
 const colorCategories = [
   { name: "Red", key: "red" },
@@ -209,10 +25,15 @@ const colorCategories = [
   { name: "White", key: "white" },
 ];
 
-const PaintSelectionPage = ({handleCloseColorModal}) => {
+interface PaintSelectionPageProps {
+  handleCloseColorModal: () => void;
+}
+
+const PaintSelectionPage: React.FC<PaintSelectionPageProps> = ({ handleCloseColorModal }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("red");
   const [companyPaints, setCompanyPaints] = useState<any>(null);
   const [selectedCompany, setSelectedCompany] = useState<string>("");
+  const [selectedLogo, setSelectedLogo] = useState<string>("");
 
   const router = useRouter();
 
@@ -223,25 +44,16 @@ const PaintSelectionPage = ({handleCloseColorModal}) => {
     if (paints.length > 0) {
       const firstCompany = paints[0];
       setSelectedCompany(firstCompany.companyName);
+      setSelectedLogo(firstCompany.logo);
       setCompanyPaints(firstCompany.paints);
     }
   }, []);
 
   // Handle company selection change
-  const handleCompanySelection = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedCompanyName = event.target.value;
-    setSelectedCompany(selectedCompanyName);
-
-    const company = paints.find(
-      (company) => company.companyName === selectedCompanyName
-    );
-    if (company) {
-      setCompanyPaints(company.paints);
-    } else {
-      console.error("Company not found");
-    }
+  const handleCompanySelection = (company: any) => {
+    setSelectedCompany(company.companyName);
+    setSelectedLogo(company.logo);
+    setCompanyPaints(company.paints);
   };
 
   if (!companyPaints) {
@@ -262,11 +74,6 @@ const PaintSelectionPage = ({handleCloseColorModal}) => {
     setSelectedCategory(category);
   };
 
-  // Handle next button click
-  const handleNext = () => {
-    router.push("/nextPage");
-  };
-
   const renderPaints = () => {
     return companyPaints[selectedCategory]?.map((paint: any, index: number) => (
       <Col key={index} xs={3} className="mb-4">
@@ -275,11 +82,12 @@ const PaintSelectionPage = ({handleCloseColorModal}) => {
             selectedColors.some((p) => p.code === paint.code) ? "selected" : ""
           }`}
           onClick={() => handlePaintSelection(paint)}
+          style={{ cursor: "pointer" }}
         >
           <div
             style={{
               backgroundColor: paint.hex,
-              height: "100px",
+              height: "60px",
               width: "100%",
               borderRadius: "8px",
             }}
@@ -309,47 +117,81 @@ const PaintSelectionPage = ({handleCloseColorModal}) => {
 
   return (
     <Container fluid className="">
+      <Row className="mb-3">
+        <Col>
+          <h3 className="fw-bold">Browse Paint Colors</h3>
+        </Col>
+      </Row>
+
+      {/* Company Logos Row */}
+      <Row className="mb-4 justify-content-center">
+        {paints.map((company, index) => (
+          <Col
+            key={index}
+            xs={3}
+            className="text-center d-flex flex-column align-items-center"
+          >
+            <div
+              style={{
+                border:
+                  selectedCompany === company.companyName
+                    ? "3px solid #007bff"
+                    : "none",
+                borderRadius: "5%",
+                padding: "10px",
+                background:
+                  selectedCompany === company.companyName
+                    ? "#f8f9fa"
+                    : "transparent",
+                cursor: "pointer",
+              }}
+              onClick={() => handleCompanySelection(company)}
+            >
+              <Image
+                src={company.logo}
+                alt={company.companyName}
+                fluid
+                style={{
+                  width: "50px", // Set fixed width
+                  height: "50px", // Set fixed height
+                  objectFit: "contain", // Ensure the image scales while maintaining aspect ratio
+                }}
+              />
+
+              {/* Centered company name below the logo */}
+              <h6
+                style={{
+                  marginTop: "10px",
+                  color:
+                    selectedCompany === company.companyName
+                      ? "#007bff"
+                      : "black",
+                }}
+              >
+                {company.companyName}
+              </h6>
+            </div>
+          </Col>
+        ))}
+      </Row>
+
+      <Row className="mb-4">
+        {colorCategories.map((category) => (
+          <Col key={category.key} className="">
+            <Button
+              variant={selectedCategory === category.key ? "dark" : "light"}
+              onClick={() => handleCategorySelection(category.key)}
+              className="w-full"
+            >
+              {category.name}
+            </Button>
+          </Col>
+        ))}
+      </Row>
+
       <Row>
         {/* Main Paints Grid that scrolls with the page */}
-        <Col xs={9} className="p-5">
-          <Row className="mb-5 align-items-center">
-            <Col xs={8}>
-              <h1 className="fw-bold">Browse Paint Colors</h1>
-            </Col>
-            <Col xs={4}>
-              {/* Dropdown for selecting company */}
-              <Form.Group controlId="companySelect">
-                <Form.Label className="fw-bold">Select Company</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={selectedCompany}
-                  onChange={handleCompanySelection}
-                >
-                  {paints.map((company, index) => (
-                    <option key={index} value={company.companyName}>
-                      {company.companyName}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-            </Col>
-          </Row>
-
-          {/* Color Categories */}
-          <Row className="mb-4">
-            {colorCategories.map((category) => (
-              <Col key={category.key} className="mb-3">
-                <Button
-                  variant={selectedCategory === category.key ? "dark" : "light"}
-                  onClick={() => handleCategorySelection(category.key)}
-                  className="w-full"
-                >
-                  {category.name}
-                </Button>
-              </Col>
-            ))}
-          </Row>
-
+        <Col xs={9} className="px-5 py-3">
           {/* Paint Grid */}
           <Row>{renderPaints()}</Row>
         </Col>
@@ -376,7 +218,7 @@ const PaintSelectionPage = ({handleCloseColorModal}) => {
               Paint Your Room
             </Button>
 
-            <h5>Saved Colors</h5>
+            <h5 className="fw-bold">Saved Colors</h5>
             <ul className="list-group">
               {selectedColors.map((paint, index) => (
                 <li
@@ -398,14 +240,11 @@ const PaintSelectionPage = ({handleCloseColorModal}) => {
                   </span>
                   <Button
                     variant="danger"
+                    className="rounded-3"
                     size="sm"
-                    onClick={() =>
-                      removeColor(
-                        paint?.code
-                      )
-                    }
+                    onClick={() => removeColor(paint?.code)}
                   >
-                    &times;
+                    <MdOutlineDeleteOutline />
                   </Button>
                 </li>
               ))}

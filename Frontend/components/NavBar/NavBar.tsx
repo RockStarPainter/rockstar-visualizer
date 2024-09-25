@@ -9,9 +9,17 @@ function NavBar(props: any) {
   return (
     <Navbar bg="transparent box-shadow" className={styles.navbar} expand="lg">
       <Container>
-        <Link className={`${styles.navbarbrand} ${styles.navlink}`} href="/">
-          AAkar
-        </Link>
+        {/* logo image  */}
+        <div className="d-flex items-center">
+          <Link href="/" className="ms-0 h-8 md:h-12 w-40">
+            <img
+              src="/images/rockstar-logo.png"
+              alt="Company Logo"
+              className="w-full h-full object-contain"
+            />
+          </Link>
+        </div>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav className="p-2">
@@ -31,15 +39,6 @@ function NavBar(props: any) {
             <Link className={`m-2 ${styles.navlink}`} href="/colorvisualiser">
               COLOR VISUALISER{" "}
             </Link>
-            <a
-              className={`m-2 ${styles.navlink} ${styles.github}`}
-              href="https://github.com/omseervi098/Aakar-SAM"
-              target="_blank"
-              rel="noopener"
-            >
-              GITHUB&nbsp;
-              <FontAwesomeIcon icon={faGithub} />
-            </a>
           </Nav>
         </Navbar.Collapse>
       </Container>
