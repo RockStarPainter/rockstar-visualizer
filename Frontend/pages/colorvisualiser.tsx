@@ -112,6 +112,14 @@ const ColorVisualiser = (props: any) => {
 
   const { selectedColors } = useColorContext(); // Use the context
 
+  interface Mask {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    filled: boolean;
+  }
+
   function parseYoloResponse(responseString: any) {
     // Step 1: Format the response string to a proper JSON format
     const formattedResponse = responseString
@@ -168,7 +176,7 @@ const ColorVisualiser = (props: any) => {
 
       // Check if masks are available and map to the desired format
       const initialMasks =
-        data?.masks?.map((mask) => ({
+        data?.masks?.map((mask: Mask) => ({
           x: mask.x,
           y: mask.y,
           width: mask.width,
@@ -184,7 +192,7 @@ const ColorVisualiser = (props: any) => {
         handleCloseModal();
       }, 2000);
     } catch (e) {
-      console.log("error-message: " + e.message);
+      console.log("error-message: " + (e as Error)?.message);
       console.log("error: " + e);
       handleCloseModal();
       setError(
@@ -655,12 +663,12 @@ const ColorVisualiser = (props: any) => {
                 {/* left side  */}
                 <div className="col-12 col-lg-8 colorvisualiser__container__left d-flex justify-content-center">
                   <ImageWithMasks
-                    imageSrc={image?.src}
+                    imageSrc={image?.src }
                     initialMasks={initialMasks}
                     selectedColor={selectedColor}
                     resetMasks={resetMasks}
-                    imgWidth={imgWidth}
-                    imgHeight={imgHeight}
+                    imgWidth={800}
+                    imgHeight={600}
                   />
                 </div>
 

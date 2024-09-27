@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+
 // Reusable ImageWithMasks component
 const ImageWithMasks = ({
   imageSrc,
@@ -8,10 +9,10 @@ const ImageWithMasks = ({
   resetMasks,
   imgWidth,
   imgHeight,
-}) => {
+}: any) => {
   // Initialize masks with colors, with a fallback to an empty array if initialMasks is undefined
   const [masks, setMasks] = useState(
-    (initialMasks || []).map((mask) => ({ ...mask, color: "transparent" }))
+    (initialMasks || []).map((mask:any) => ({ ...mask, color: "transparent" }))
   );
   const [currentColor, setCurrentColor] = useState(selectedColor); // Store the currently selected color
 
@@ -24,18 +25,17 @@ const ImageWithMasks = ({
   useEffect(() => {
     if (resetMasks) {
       setMasks(
-        (initialMasks || []).map((mask) => ({ ...mask, color: "transparent" }))
+        (initialMasks || []).map((mask: any) => ({ ...mask, color: "transparent" }))
       ); // Reset to initial state
-
     }
   }, [resetMasks, initialMasks]);
 
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     const rect = e.target.getBoundingClientRect();
     const clickX = e.clientX - rect.left; // Get x position relative to the image
     const clickY = e.clientY - rect.top; // Get y position relative to the image
 
-    const updatedMasks = masks.map((mask) => {
+    const updatedMasks = masks.map((mask:any) => {
       const isInside =
         clickX >= mask.x &&
         clickX <= mask.x + mask.width &&
@@ -73,13 +73,13 @@ const ImageWithMasks = ({
           onClick={handleClick} // Add click event listener
         />
       )}
-      {masks.map((mask, index) => (
+      {masks.map((mask:any, index:any) => (
         <div
           key={index}
           style={{
             position: "absolute",
-            left: mask.x,
-            top: mask.y,
+            left: mask.x / 800,
+            top: mask.y / 600,
             width: mask.width,
             height: mask.height,
             backgroundColor: mask.color, // Use the individual color of the mask
