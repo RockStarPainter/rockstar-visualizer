@@ -62,6 +62,7 @@ import { Tensor } from "onnxruntime-web";
 import { useRouter } from "next/navigation";
 import PaintSelectionPage from "./paint-brands";
 import { useColorContext } from "../contexts/ColorContext";
+import ImageWithMasks from "./detection-canvas";
 
 const ColorVisualiser = (props: any) => {
   // const [color, setColor] = useColor("hex", "#121212");
@@ -90,6 +91,7 @@ const ColorVisualiser = (props: any) => {
   const [shareURL, setShareURL] = useState<string>("");
   const [colour, setColour] = useColor("#561ecb");
   const [type, setType] = useState<boolean>(false);
+  const [selectedColor, setSelectedColor] = useState("");
   const handleShowModal = () => setShowModal(true);
   const handleShowLoader = () => setShowLoader(true);
   const handleCloseModal = () => setShowModal(false);
@@ -101,49 +103,92 @@ const ColorVisualiser = (props: any) => {
   const handleShowSlider = () => setShowSlider(!showSlider);
   const handleShowShareModal = () => setShowShareModal(true);
   const handleCloseShareModal = () => setShowShareModal(false);
+  const [resetMasks, setResetMasks] = useState(false); // State to trigger mask reset
+  const [initialMasks, setInitialMasks] = useState(); // State to trigger mask reset
+  const [imgWidth, setImgWidth] = useState("800px"); // State to trigger mask reset
+  const [imgHeight, setImgHeight] = useState("600px"); // State to trigger mask reset
 
   const router = useRouter();
 
   const { selectedColors } = useColorContext(); // Use the context
 
+  function parseYoloResponse(responseString: any) {
+    // Step 1: Format the response string to a proper JSON format
+    const formattedResponse = responseString
+      .replace(/'/g, '"') // Replace single quotes with double quotes
+      .replace(/array\((.+?)\)/g, "[$1]"); // Replace array(...) with []
+
+    // Step 2: Parse the formatted string to a JSON object
+    const jsonResponse = JSON.parse(formattedResponse);
+
+    // Step 3: Extract the bounding boxes, confidence, and class IDs
+    const boundingBoxes = jsonResponse.box.xyxy; // This will be an array
+    const confidenceScores = jsonResponse.box.confidence; // This will be an array
+    const classIds = jsonResponse.box.class_id; // This will be an array
+
+    // Step 4: Convert to Float32Array
+    const boundingBoxesArray = new Float32Array(boundingBoxes.flat());
+    const confidenceScoresArray = new Float32Array(confidenceScores);
+    const classIdsArray = new Float32Array(classIds);
+
+    // Return the results as an object
+    return {
+      boundingBoxes: boundingBoxesArray,
+      confidenceScores: confidenceScoresArray,
+      classIds: classIdsArray,
+    };
+  }
+
   const getImageEmbedding = async (file: any) => {
     handleShowModal();
     setType(false);
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("file", file);
     await loadImage(file);
     await scrollTo(0, 0);
+
     try {
-      // const res = await axios.post(
-      //   ` ${process.env.NEXT_PUBLIC_BACKEND_URL}/getembedding`,
-      //   formData
-      // );
-      // const data = await res.data;
-      // // convert data into float32 array
-      // for (let i = 0; i < data.length; i++) {
-      //   for (let j = 0; j < data[i].length; j++) {
-      //     for (let k = 0; k < data[i][j].length; k++) {
-      //       for (let l = 0; l < data[i][j][k].length; l++) {
-      //         data[i][j][k][l] = parseFloat(data[i][j][k][l]);
-      //       }
-      //     }
-      //   }
-      // }
-      // const data2 = data.flat(Infinity);
-      // const data1 = new Float32Array(data2);
-      // const tensor = new Tensor("float32", data1, [1, 256, 64, 64]);
-      // setTensor(tensor);
-      // handleCloseModal();
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/upload/`,
+        formData
+      );
+
+      console.log(res);
+
+      setImgWidth(`${res?.data?.yolo_results?.img_width}px`);
+      setImgHeight(`${res?.data?.yolo_results?.img_height}px`);
+
+      // Fix parsing by replacing ' and Python booleans with valid JSON format
+      const data = JSON.parse(
+        res?.data?.yolo_results
+          .replace(/'/g, '"')
+          .replace(/False/g, "false")
+          .replace(/True/g, "true")
+      );
+
+      // Check if masks are available and map to the desired format
+      const initialMasks =
+        data?.masks?.map((mask) => ({
+          x: mask.x,
+          y: mask.y,
+          width: mask.width,
+          height: mask.height,
+          filled: mask.filled,
+        })) || [];
+
+      setInitialMasks(initialMasks);
+
+      console.log("masks: ", initialMasks);
 
       setTimeout(() => {
         handleCloseModal();
       }, 2000);
-
-      // introJs().setOption("dontShowAgain", true).start();
     } catch (e) {
+      console.log("error-message: " + e.message);
+      console.log("error: " + e);
       handleCloseModal();
       setError(
-        "Currently we are facing some issues , Try from one of our preloaded images"
+        "Currently we are facing some issues, Try from one of our preloaded images"
       );
       setFile(null);
       setTimeout(() => {
@@ -151,7 +196,57 @@ const ColorVisualiser = (props: any) => {
       }, 2000);
       console.log(e);
     }
-  };  
+  };
+
+  // const getImageEmbedding = async (file: any) => {
+  //   handleShowModal();
+  //   setType(false);
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //   await loadImage(file);
+  //   await scrollTo(0, 0);
+  //   try {
+  //     const res = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/upload/`,
+  //       formData
+  //     );
+
+  //     console.log(res);
+
+  //     // Parse the yolo_results as JSON
+  //     const data = JSON.parse(res?.data?.yolo_results.replace(/'/g, '"')); // Ensure proper JSON format
+
+  //     // Check if masks are available and map to the desired format
+  //     const initialMasks =
+  //       data?.masks?.map((mask) => ({
+  //         x: mask.x,
+  //         y: mask.y,
+  //         width: mask.width,
+  //         height: mask.height,
+  //         filled: mask.filled,
+  //       })) || [];
+
+  //     setInitialMasks(initialMasks);
+
+  //     console.log("masks: ", initialMasks);
+
+  //     setTimeout(() => {
+  //       handleCloseModal();
+  //     }, 2000);
+  //   } catch (e) {
+  //     console.log("error-message: " + e.message);
+  //     console.log("error: " + e);
+  //     handleCloseModal();
+  //     setError(
+  //       "Currently we are facing some issues, Try from one of our preloaded images"
+  //     );
+  //     setFile(null);
+  //     setTimeout(() => {
+  //       setError(null);
+  //     }, 2000);
+  //     console.log(e);
+  //   }
+  // };
 
   const loadImage = async (imageFile: any) => {
     try {
@@ -417,6 +512,11 @@ const ColorVisualiser = (props: any) => {
     undoRedo!.reset();
   };
 
+  // Function to clear masks
+  const clearMasks = () => {
+    setResetMasks((prev) => !prev); // Toggle reset state
+  };
+
   const shareImage = async () => {
     if (
       Capacitor.getPlatform() === "android" ||
@@ -436,8 +536,8 @@ const ColorVisualiser = (props: any) => {
       );
       const data = await res.data;
       await Share.share({
-        title: "Aakar",
-        text: "Check out this Room Image from Aakar",
+        title: "Rockstar Visualizer",
+        text: "Check out this Room Image from rockstar ",
         url: data.url,
         dialogTitle: "Share with loved ones",
       })
@@ -480,6 +580,13 @@ const ColorVisualiser = (props: any) => {
     setModelScale(null);
     undoRedo!.reset();
   };
+
+  // const imageSrc = "/images/home-pic.jpg";
+  const initialMaskes = [
+    { x: 50, y: 100, width: 200, height: 150, filled: false },
+    { x: 300, y: 200, width: 250, height: 100, filled: false },
+    { x: 600, y: 300, width: 150, height: 200, filled: false },
+  ];
 
   return (
     <>
@@ -546,18 +653,19 @@ const ColorVisualiser = (props: any) => {
             <div className="colorvisualiser__container container-fluid m-0 p-0">
               <div className="row m-0 p-0 align-items-center">
                 {/* left side  */}
-                <div className="col-12 col-lg-8 colorvisualiser__container__left">
-                  <Stage
-                    handleShowLoader={handleShowLoader}
-                    applyColor={applyColor}
-                    applyTexture={applyTexture}
-                    handleCloseLoader={handleCloseLoader}
-                    showSlider={showSlider}
+                <div className="col-12 col-lg-8 colorvisualiser__container__left d-flex justify-content-center">
+                  <ImageWithMasks
+                    imageSrc={image?.src}
+                    initialMasks={initialMasks}
+                    selectedColor={selectedColor}
+                    resetMasks={resetMasks}
+                    imgWidth={imgWidth}
+                    imgHeight={imgHeight}
                   />
                 </div>
 
                 {/* right side  */}
-                <div className="col-12 col-lg-4 colorvisualiser__container__right mt-3 mt-lg-0">
+                <div className="col-12 col-lg-4 colorvisualiser__container__right mt-3 mt-lg-0 ">
                   {/* place order button  */}
                   <div className="colorvisualiser__tools_container mb-4">
                     <button
@@ -569,8 +677,19 @@ const ColorVisualiser = (props: any) => {
                     </button>
                   </div>
 
-                  {/* tools section  */}
+                  {/* clear selected paints */}
                   <div className="colorvisualiser__tools_container mb-4">
+                    <button
+                      className="w-100 btn btn-secondary"
+                      type="button"
+                      onClick={clearMasks}
+                    >
+                      Clear paints
+                    </button>
+                  </div>
+
+                  {/* tools section  */}
+                  {/* <div className="colorvisualiser__tools_container mb-4">
                     <Card
                       className="border-2 shadow-sm"
                       data-intro="Tools where you can undo , redo , reset , compare, download and share your image"
@@ -618,7 +737,7 @@ const ColorVisualiser = (props: any) => {
                         </Button>
                       </Card.Body>
                     </Card>
-                  </div>
+                  </div> */}
 
                   {/* paint selection section  */}
                   <div className="colorvisualiser__color_container mb-4">
@@ -628,13 +747,27 @@ const ColorVisualiser = (props: any) => {
                       </Card.Title>
                       <Card.Body className="d-flex flex-wrap gap-2 justify-content-center align-items-center ">
                         {selectedColors.map((color: any, index: number) => {
+                          const isSelected = color.hex === selectedColor; // Check if this color is selected
                           return (
                             <Button
-                              className="colorvisualiser__color_button"
+                              className={`colorvisualiser__color_button ${
+                                isSelected ? "selected" : ""
+                              }`} // Add 'selected' class for the selected color
                               key={index}
-                              style={{ backgroundColor: color.hex }}
+                              style={{
+                                backgroundColor: color.hex,
+                                border: isSelected ? "3px solid #000" : "none", // Add border for selected color
+                                boxShadow: isSelected
+                                  ? "0 0 10px rgba(0,0,0,0.5)"
+                                  : "none", // Add shadow for selected color
+                                transform: isSelected
+                                  ? "scale(1.1)"
+                                  : "scale(1)", // Slightly enlarge selected color button
+                                transition: "all 0.2s ease", // Smooth transition for effects
+                              }}
                               onClick={() => {
                                 setColor(color.hex);
+                                setSelectedColor(color.hex);
                                 toast.success("Color Selected");
                                 setTexture(null);
                               }}
@@ -724,9 +857,7 @@ const ColorVisualiser = (props: any) => {
               centered
               onHide={handleCloseShareModal}
             >
-              <Modal.Body
-              style={{backgroundColor: "white"}}
-              >
+              <Modal.Body style={{ backgroundColor: "white" }}>
                 {/* Show loader */}
                 {showLoader ? (
                   <div className="d-flex justify-content-center align-items-center fw-bold mt-2">
@@ -822,7 +953,12 @@ const ColorVisualiser = (props: any) => {
               dialogClassName="modal-custom" // Custom class for fixed height
             >
               <Modal.Body
-                style={{ maxHeight: "80vh", overflowY: "auto", margin: "2%", backgroundColor: "white" }}
+                style={{
+                  maxHeight: "80vh",
+                  overflowY: "auto",
+                  margin: "2%",
+                  backgroundColor: "white",
+                }}
               >
                 <div className="fw-bold text-center mb-2">
                   Select Your Paints
@@ -954,11 +1090,9 @@ const ColorVisualiser = (props: any) => {
             backdrop="static"
           >
             <Modal.Body
-                style={{ backgroundColor: "white", borderRadius: "5px" }}
+              style={{ backgroundColor: "white", borderRadius: "5px" }}
             >
-              <div
-                className="d-flex justify-content-between align-items-center ps-3"
-              >
+              <div className="d-flex justify-content-between align-items-center ps-3">
                 <Image
                   src={URL.createObjectURL(file)}
                   alt="Uploaded Image"

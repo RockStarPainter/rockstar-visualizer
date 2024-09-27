@@ -124,6 +124,13 @@ body {
 .colorvisualiser {
   background: linear-gradient(to bottom, #ffffff, #9fd3ff);
 }
+
+.colorvisualiser__color_button.selected {
+  border: 3px solid #0000; /* Example style */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Example style */
+}
+
+
 .colorvisualiser__container__left h1 {
   font-weight: 500;
   color: #05308b;
