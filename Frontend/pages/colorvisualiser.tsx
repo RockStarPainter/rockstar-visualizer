@@ -581,20 +581,9 @@ const ColorVisualiser = (props: any) => {
               <div className="row m-0 p-0 align-items-center">
                 {/* left side  */}
                 <div className="col-12 col-lg-8 colorvisualiser__container__left d-flex justify-content-center">
-                  {/* <ImageWithMasks
-                    imageSrc={image?.src}
-                    initialMasks={initialMasks}
-                    selectedColor={selectedColor}
-                    resetMasks={resetMasks}
-                    imgWidth={800}
-                    imgHeight={600}
-                  /> */}
-
                   <ImageMaskOverlay
                     imgSrc={image?.src}
                     maskData={initialMasks}
-                    selectedColor={selectedColor}
-                    resetMasks={resetMasks}
                   />
                 </div>
 
