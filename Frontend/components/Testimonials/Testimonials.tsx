@@ -1,104 +1,69 @@
 import styles from "./Testimonial.module.css";
 import React, { useEffect, useRef, useState } from "react";
+import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 
-const TESTIMONIAL_DELAY = 3000;
+// Styled heading for the testimonials section
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  color: "#323232",
+  fontSize: "1.8rem",
+  fontWeight: "bold",
+  textTransform: "uppercase",
+  letterSpacing: "0.1em",
+  textAlign: "center",
+  padding: theme.spacing(2),
+  background: "linear-gradient(45deg, #719E37, #F7F7F9)",
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[3],
+  margin: "2rem auto",
+}));
 
-const Testimonial = (props: any) => {
-  const { testimonialData } = props;
-  const refFeedbackParentDiv = useRef<any>(null);
-  const refButtonsParentDiv = useRef<any>(null);
-  const timeoutRef = useRef<any>(null);
-  const [delay, setDelay] = useState<number>(100);
+const TESTIMONIAL_DELAY = 5000; // 5-second delay for auto-slide
+
+const Testimonial = ({ testimonialData }: any) => {
   const [index, setIndex] = useState<number>(0);
-
-  useEffect(() => setDelay(TESTIMONIAL_DELAY), []);
+  const timeoutRef = useRef<any>(null);
 
   useEffect(() => {
-    timeoutRef.current = setTimeout(
-      () =>
-        setIndex((prevIndex) =>
-          prevIndex === props.testimonialData.length - 1 ? 0 : prevIndex + 1
-        ),
-      delay
-    );
+    const nextSlide = () =>
+      setIndex((prevIndex) =>
+        prevIndex === testimonialData.length - 1 ? 0 : prevIndex + 1
+      );
 
-    return () => clearTimeout(timeoutRef.current);
-  }, [props.testimonialData.length, index, delay]);
+    timeoutRef.current = setTimeout(nextSlide, TESTIMONIAL_DELAY);
 
-  const dotsHelper = (idx: number) => {
-    if (refButtonsParentDiv.current === null) return;
-
-    if (index === idx) {
-      const arr2 = [...refFeedbackParentDiv.current.children];
-
-      arr2.forEach((el, i) => {
-        if (window.document.querySelector(`.feedbackText--${i}`))
-          document
-            ?.querySelector(`.feedbackText--${i}`)
-            ?.classList.add(styles["not-visible"]);
-      });
-
-      arr2[index + 1].classList.remove(styles["not-visible"]);
-
-      return styles["myDot--active"];
-    }
-  };
-
-  const dotClickHandler = (arr: any, indx: number) => {
-    setIndex(indx);
-    arr.forEach((_el: any, i: number) => {
-      document
-        ?.querySelector(`.feedbackText--${i}`)
-        ?.classList.add(styles["not-visible"]);
-      document
-        ?.querySelector(`.buttonDot${i}`)
-        ?.classList.remove(styles["myDot--active"]);
-    });
-    document
-      ?.querySelector(`.feedbackText--${indx}`)
-      ?.classList.remove(styles["not-visible"]);
-    document
-      ?.querySelector(`.buttonDot${indx}`)
-      ?.classList.add(styles["myDot--active"]);
-  };
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [index, testimonialData.length]);
 
   return (
-    <div className={`${styles["section-three-main-div"]} testimonial`}>
-      <div
-        ref={refFeedbackParentDiv}
-        className={styles["section-three-sub-div-one"]}
-      >
+    <div className={styles.testimonialSection}>
+      <StyledTypography variant="h4">Testimonials</StyledTypography>
+
+      <div className={styles.carousel}>
         <div
-          className={`${styles["quotes-img"]} ${styles["quotes-img-right"]}`}
-        />
-        {testimonialData.map((el: any, i: number) => {
-          return (
-            <div
-              key={i}
-              className={`feedbackText--${i} ${styles["main-quotes-div"]} ${styles["not-visible"]}`}
-            >
-              <div className={styles.para}>{el.testimonial}</div>
-              <div className={styles.subText}>{el.author}</div>
+          className={styles.carouselInner}
+          style={{ transform: `translateX(-${index * 100}%)` }} // Slide effect
+        >
+          {testimonialData.map((testimonial: any, i: number) => (
+            <div className={styles.testimonialCard} key={i}>
+              <p className={styles.testimonialText}>{testimonial.testimonial}</p>
+              <h5 className={styles.testimonialAuthor}>~ {testimonial.author}</h5>
             </div>
-          );
-        })}
-        <div
-          className={`${styles["quotes-img"]} ${styles["quotes-img-left"]}`}
-        />
+          ))}
+        </div>
       </div>
-      <div ref={refButtonsParentDiv}>
-        {testimonialData.map((_: any, i: number, arr: any) => {
-          return (
-            <div
-              nonce="change testimonial"
-              key={i}
-              className={`buttonDot${i} ${styles.myDot} ${
-                index === i ? dotsHelper(i) : ""
-              }`}
-              onClick={() => dotClickHandler(arr, i)}
-            />
-          );
-        })}
+
+      {/* Pagination Dots */}
+      <div className={styles.dotContainer}>
+        {testimonialData.map((_: any, i: number) => (
+          <span
+            key={i}
+            className={`${styles.dot} ${i === index ? styles.activeDot : ""}`}
+            onClick={() => setIndex(i)} // Allow manual selection of slides
+          />
+        ))}
       </div>
     </div>
   );

@@ -22,6 +22,7 @@ import {
   downloadImage,
   processTexture,
 } from "../utils/helpers/maskUtils";
+import { Container, Row } from "react-bootstrap";
 import { modelData } from "../utils/helpers/onnxModelAPI";
 import Stage from "../components/Stage";
 import AppContext from "../utils/hooks/createContext";
@@ -45,6 +46,8 @@ import {
   IoIosUndo,
   IoMdImage,
 } from "react-icons/io";
+import { styled } from "@mui/material/styles";
+
 import { RxReset } from "react-icons/rx";
 import { MdCompare } from "react-icons/md";
 import { FaImage, FaShare } from "react-icons/fa";
@@ -63,6 +66,7 @@ import { useRouter } from "next/navigation";
 import PaintSelectionPage from "./paint-brands";
 import { useColorContext } from "../contexts/ColorContext";
 import ImageWithMasks from "./detection-canvas";
+import styles from "../styles/Home.module.css"; // Import the CSS module
 
 const ColorVisualiser = (props: any) => {
   // const [color, setColor] = useColor("hex", "#121212");
@@ -588,6 +592,19 @@ const ColorVisualiser = (props: any) => {
     setModelScale(null);
     undoRedo!.reset();
   };
+  const StyledTypography = styled("h1")(({ theme }) => ({
+    color: "#323232",
+    fontSize: "2.5rem", // Larger font size
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: "0.1em",
+    textAlign: "center",
+    marginBottom: theme.spacing(4),
+    padding: theme.spacing(2),
+    background: "linear-gradient(45deg, #719E37, #F7F7F9)", // Gradient background
+    borderRadius: theme.shape.borderRadius,
+    boxShadow: theme.shadows[3],
+  }));
 
   // const imageSrc = "/images/home-pic.jpg";
   const initialMaskes = [
@@ -625,35 +642,37 @@ const ColorVisualiser = (props: any) => {
                 />
               </div>
             </div>
-            <div className="row justify-content-center align-items-center gap-5 gap-lg-3 mt-5 ">
-              <div className="col-12 colorvisualiser__container__left ">
-                <h1 className="text-center">Try one of our preloaded images</h1>
+            <Container fluid className={styles.preloadedSection}>
+              {/* Heading */}
+              <StyledTypography>
+                Try One of Our Preloaded Images
+              </StyledTypography>
+
+              <div className="row justify-content-center gap-4">
+                {preimage.map((image: any, index: number) => {
+                  return (
+                    <Card
+                      key={index}
+                      className={`col-10 col-md-5 col-lg-3 ${styles.projectcard}`}
+                      onClick={() => handlePreloadedImage(image)}
+                    >
+                      <div className={styles.imageWrapper}>
+                        <img
+                          src={image.image}
+                          alt={image.name}
+                          className={styles.projectImg}
+                        />
+                      </div>
+                      <Card.ImgOverlay className={styles.overlay}>
+                        <Card.Title className={styles.cardtitle}>
+                          {image.name}
+                        </Card.Title>
+                      </Card.ImgOverlay>
+                    </Card>
+                  );
+                })}
               </div>
-              {preimage.map((image: any, index: number) => {
-                return (
-                  <Card
-                    className="border-2 shadow-sm col-11 col-md-5 col-lg-3"
-                    key={index}
-                    onClick={() => handlePreloadedImage(image)}
-                  >
-                    <Card.Body className="d-flex flex-column justify-content-between align-items-center p-0 pt-3">
-                      <Card.Img
-                        variant="top"
-                        src={image.image}
-                        className="img-fluid"
-                        style={{
-                          height: "200px",
-                          objectFit: "cover",
-                        }}
-                      />
-                      <Card.Title className="text-center">
-                        {image.name}.png
-                      </Card.Title>
-                    </Card.Body>
-                  </Card>
-                );
-              })}
-            </div>
+            </Container>
           </div>
         )}
         {file && (
@@ -663,7 +682,7 @@ const ColorVisualiser = (props: any) => {
                 {/* left side  */}
                 <div className="col-12 col-lg-8 colorvisualiser__container__left d-flex justify-content-center">
                   <ImageWithMasks
-                    imageSrc={image?.src }
+                    imageSrc={image?.src}
                     initialMasks={initialMasks}
                     selectedColor={selectedColor}
                     resetMasks={resetMasks}
