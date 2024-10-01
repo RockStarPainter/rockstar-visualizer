@@ -8,6 +8,7 @@ import testimonialdata from "../utils/testimonialdata.json";
 import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
 import styles from "../styles/Home.module.css"; // Import the CSS module
+import AboutUs from "../components/AboutUs/AboutUs";
 
 // Styled Typography for section headings
 const SectionTitle = styled(Typography)(({ theme }) => ({
@@ -61,6 +62,8 @@ export default function Home(props: any) {
             painting projects on buildings to detailed interior work in living rooms, kitchens, and 
             offices, our team delivers excellence with every stroke.
           </ServiceDescription>
+          {/* <SectionTitle variant="h2">AboutUs</SectionTitle> */}
+          <AboutUs/>
 
           {/* Exterior Painting Service */}
           <SectionTitle variant="h3">Exterior Painting</SectionTitle>
