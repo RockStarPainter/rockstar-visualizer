@@ -44,10 +44,10 @@ const Testimonial = ({ testimonialData }: any) => {
       <div className={styles.carousel}>
         <div
           className={styles.carouselInner}
-          style={{ transform: `translateX(-${index * 100}%)` }} // Slide effect
+          style={{ transform: `translateX(-${index * 105}%)` }} // Slide effect
         >
           {testimonialData.map((testimonial: any, i: number) => (
-            <div className={styles.testimonialCard} key={i}>
+            <div className={`${styles.testimonialCard}`} key={i}>
               <p className={styles.testimonialText}>{testimonial.testimonial}</p>
               <h5 className={styles.testimonialAuthor}>~ {testimonial.author}</h5>
             </div>

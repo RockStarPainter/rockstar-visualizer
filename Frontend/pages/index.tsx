@@ -110,7 +110,7 @@ export default function Home(props: any) {
         {/* Projects Section */}
         <Container fluid>
           <SectionTitle variant="h1">Our Projects</SectionTitle>
-          <Row lg={1} className="justify-content-center">
+          <Row lg={1} className="justify-content-center gap-4 px-3">
             {imgdata.map((img) => (
               <ProjectItem key={img.key} title={img.title} img={img.img} />
             ))}
