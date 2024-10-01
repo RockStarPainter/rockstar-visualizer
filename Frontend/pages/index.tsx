@@ -13,6 +13,7 @@ import FeatureHighlights from "./FeatureHighlights";
 import BrandShowcase from "./BrandShowcase";
 import Image from "next/image";
 import Services from "./Services";
+import AboutUs from "./AboutUs";
 
 // Styled Typography for section headings
 const SectionTitle = styled(Typography)(({ theme }) => ({
@@ -73,7 +74,7 @@ export default function Home(props: any) {
               Visualizer
             </Headline>
             <IntroParagraph>
-              Welcome to Rockstar Painting's Color Visualizer – a cutting-edge
+              Welcome to Rockstar Painting Color Visualizer – a cutting-edge
               tool designed to help you reimagine your home with ease. Whether
               you’re looking to refresh your home’s exterior or add a pop of
               color to your interior, our AI-powered technology lets you upload
@@ -96,7 +97,7 @@ export default function Home(props: any) {
         <HowItWorks />
         <FeatureHighlights />
         <BrandShowcase />
-
+        <AboutUs />
         {/* Our Services Section */}
         <Container fluid className="py-5">
           <SectionTitle variant="h2">Our Services</SectionTitle>

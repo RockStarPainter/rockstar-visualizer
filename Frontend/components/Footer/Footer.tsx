@@ -15,9 +15,11 @@ const Footer = () => {
                   className="w-full h-full object-contain"
                 />
               </Link>
+              
             </div>
+            
           </div>
-          <h4 className={`${styles.title} text-center`}>Follow Us</h4>
+          {/* <h4 className={`${styles.title} text-center`}>Follow Us</h4>
           <div className={`${styles.social__media} ms-5`}>
             <Link
               href={"https://twitter.com/rockstar_paint"}
@@ -55,8 +57,9 @@ const Footer = () => {
                 />
               </svg>
             </Link>
-          </div>
+          </div> */}
         </div>
+        
         <div className={styles.footer__lists__container}>
           <div className={`${styles.features} ${styles.footer__list}`}>
             <li className={styles.title}>Feature</li>
@@ -68,11 +71,11 @@ const Footer = () => {
           </div>
           <div className={`${styles.company} ${styles.footer__list}`}>
             <li className={styles.title}>Company</li>
-            <li>
+            {/* <li>
               <Link href="/about" className="text-decoration-none">
                 About Us
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/contact" className="text-decoration-none">
                 Contact Us
