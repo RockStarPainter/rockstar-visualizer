@@ -30,9 +30,7 @@ function NavBar() {
             <Link href="/" className={`m-2 ${styles.navlink}`}>
               HOME
             </Link>
-            <Link href="/about" className={`m-2 ${styles.navlink}`}>
-              ABOUT
-            </Link>
+
             <Link href="/contact" className={`m-2 ${styles.navlink}`}>
               CONTACT US
             </Link>

@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.aakarvisual.app',
-  appName: 'Aakar',
+  appName: 'Rockstar Painting,
   webDir: 'out',
 bundledWebRuntime: false,
   server: {

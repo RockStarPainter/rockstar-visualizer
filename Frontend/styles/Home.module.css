@@ -84,7 +84,23 @@
   height: 100%;
   overflow: hidden;
 }
+.textOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  text-align: center;
+  color: white;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.4); /* Optional background to make text stand out */
+  border-radius: 8px;
+}
 
+.heroImage,
+.heroSvg {
+  display: none; /* These images are removed as per your request */
+}
 .video {
   position: absolute;
   top: 50%;
@@ -115,12 +131,7 @@
   justify-content: center;
   align-items: center;
 }
-.mediaContainer {
-  position: relative; /* Create stacking context for video to be on top */
-  width: 100%;
-  height: 800px; /* Fixed height for the container */
-  overflow: hidden; /* Ensure no overflow */
-}
+/*  */
 
 .image {
   width: 100%;
@@ -148,7 +159,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent); /* Adjust to taste */
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.5),
+    transparent
+  ); /* Adjust to taste */
   z-index: 3; /* Ensure the overlay is on top of the video */
 }
 /* Preloaded Images Section */
@@ -252,4 +267,70 @@
   border-radius: 10px;
   /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); */
   object-fit: cover;
+}
+/* Hero Section */
+.heroSection {
+  position: absolute; /* Absolute positioning to place it on top of the mediaContainer */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3; /* Ensure it's on top of the image and video */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  pointer-events: none; /* Ensure mediaContainer interaction still works */
+}
+
+.heroImage,
+.heroSvg {
+  max-width: 45%;
+  height: auto;
+  z-index: 4;
+  pointer-events: all; /* Allow interaction with these elements */
+}
+
+/* Existing Media Section (Image and Video) */
+.mediaContainer {
+  position: relative; /* Create stacking context for video to be on top */
+  width: 100%;
+  height: 800px; /* Fixed height for the container */
+  overflow: hidden; /* Ensure no overflow */
+  z-index: 1; /* Background layer */
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image scales properly */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Background layer */
+}
+
+.video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the video scales properly */
+  z-index: 2; /* Ensure video is on top of the image */
+  opacity: 0.2; /* Slight opacity to show image behind video */
+}
+
+/* Add a gradient overlay */
+.mediaContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.5),
+    transparent
+  ); /* Adjust to taste */
+  z-index: 3; /* Ensure the overlay is on top of the video */
 }

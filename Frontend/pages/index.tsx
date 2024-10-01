@@ -8,6 +8,11 @@ import testimonialdata from "../utils/testimonialdata.json";
 import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
 import styles from "../styles/Home.module.css"; // Import the CSS module
+import HowItWorks from "./HowItWorks";
+import FeatureHighlights from "./FeatureHighlights";
+import BrandShowcase from "./BrandShowcase";
+import Image from "next/image";
+import Services from "./Services";
 
 // Styled Typography for section headings
 const SectionTitle = styled(Typography)(({ theme }) => ({
@@ -23,7 +28,23 @@ const SectionTitle = styled(Typography)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[3],
 }));
+const Headline = styled(Typography)(({ theme }) => ({
+  color: "#ffffff",
+  fontSize: "2.5rem",
+  fontWeight: "bold",
+  textAlign: "center",
+  marginBottom: theme.spacing(2),
+  zIndex: 5,
+}));
 
+const IntroParagraph = styled(Typography)(({ theme }) => ({
+  color: "#f0f0f0",
+  fontSize: "1.2rem",
+  textAlign: "center",
+  maxWidth: "800px",
+  margin: "0 auto",
+  zIndex: 5,
+}));
 // Styled paragraph for service description
 const ServiceDescription = styled(Typography)(({ theme }) => ({
   color: "#555",
@@ -39,7 +60,29 @@ export default function Home(props: any) {
       <Container fluid className="p-0">
         {/* Image and Video Overlay Section */}
         <div className={styles.mediaContainer}>
-          <img src="/images/sofa.jpg" alt="Sofa Image" className={styles.image} />
+          {/* Updated Image */}
+          <img
+            src="/images/before-after.webp"
+            alt="Before and After Painting"
+            className={styles.image}
+          />
+          {/* Headline and Intro Paragraph */}
+          <div className={styles.textOverlay}>
+            <Headline>
+              Transform Your Home’s Look Instantly with Our AI-Powered Color
+              Visualizer
+            </Headline>
+            <IntroParagraph>
+              Welcome to Rockstar Painting's Color Visualizer – a cutting-edge
+              tool designed to help you reimagine your home with ease. Whether
+              you’re looking to refresh your home’s exterior or add a pop of
+              color to your interior, our AI-powered technology lets you upload
+              images of your space and experiment with endless color
+              combinations in real-time.
+            </IntroParagraph>
+          </div>
+
+          {/* Video */}
           <video
             className={styles.video}
             autoPlay
@@ -50,71 +93,14 @@ export default function Home(props: any) {
           />
         </div>
 
+        <HowItWorks />
+        <FeatureHighlights />
+        <BrandShowcase />
+
         {/* Our Services Section */}
         <Container fluid className="py-5">
           <SectionTitle variant="h2">Our Services</SectionTitle>
-          <ServiceDescription variant="body1">
-            We specialize in transforming the look and feel of homes, offices, and buildings 
-            with our top-quality painting services. Whether it’s the exterior of a home that 
-            needs a fresh coat to enhance curb appeal, or an interior space that requires 
-            vibrant colors and precision finishes, we have you covered. From large-scale exterior 
-            painting projects on buildings to detailed interior work in living rooms, kitchens, and 
-            offices, our team delivers excellence with every stroke.
-          </ServiceDescription>
-
-          {/* Exterior Painting Service */}
-          <SectionTitle variant="h3">Exterior Painting</SectionTitle>
-          <Row className={styles.servicesRow}>
-            <Col md={6}>
-              <img
-                src="/images/home-pic.jpg"
-                alt="Exterior Painting"
-                className={styles.serviceImage}
-              />
-            </Col>
-            <Col md={6} className="d-flex align-items-center justify-content-center">
-              <video
-                className={styles.serviceVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                src="/videos/boy is painting a house with paint roller.mp4"
-              />
-            </Col>
-          </Row>
-
-          {/* Interior Painting Service */}
-          <SectionTitle variant="h3">Interior Painting</SectionTitle>
-          <Row className={styles.servicesRow}>
-            <Col md={6}>
-              <video
-                className={styles.serviceVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                src="/videos/Color Painting Wall Service.mp4"
-              />
-            </Col>
-            <Col md={6} className="d-flex align-items-center justify-content-center">
-              <img
-                src="/images/light.png"
-                alt="Interior Painting"
-                className={styles.serviceImage}
-              />
-            </Col>
-          </Row>
-        </Container>
-
-        {/* Projects Section */}
-        <Container fluid>
-          <SectionTitle variant="h1">Our Projects</SectionTitle>
-          <Row lg={1} className="justify-content-center">
-            {imgdata.map((img) => (
-              <ProjectItem key={img.key} title={img.title} img={img.img} />
-            ))}
-          </Row>
+          <Services />
         </Container>
 
         {/* Testimonials Section */}
