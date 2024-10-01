@@ -130,7 +130,6 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Example style */
 }
 
-
 .colorvisualiser__container__left h1 {
   font-weight: 500;
   color: #05308b;
@@ -262,7 +261,6 @@ body {
   pointer-events: none;
 }
 
-
 /* Webkit-based browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
   width: 8px !important;
@@ -284,3 +282,4 @@ body {
 /* Firefox */
 scrollbar-width: thin !important;
 scrollbar-color: #8866 transparent !important;
+

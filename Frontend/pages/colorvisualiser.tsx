@@ -67,6 +67,8 @@ import PaintSelectionPage from "./paint-brands";
 import { useColorContext } from "../contexts/ColorContext";
 import ImageWithMasks from "./detection-canvas";
 import styles from "../styles/Home.module.css"; // Import the CSS module
+import WallOverlay from "./detection-canvas";
+import ImageMaskOverlay from "./detection-canvas";
 
 const ColorVisualiser = (props: any) => {
   // const [color, setColor] = useColor("hex", "#121212");
@@ -108,7 +110,9 @@ const ColorVisualiser = (props: any) => {
   const handleShowShareModal = () => setShowShareModal(true);
   const handleCloseShareModal = () => setShowShareModal(false);
   const [resetMasks, setResetMasks] = useState(false); // State to trigger mask reset
-  const [initialMasks, setInitialMasks] = useState(); // State to trigger mask reset
+  const [initialMasks, setInitialMasks] = useState<any>(); // State to trigger mask reset
+  const [maskData, setMaskData] = useState(null);
+
   const [imgWidth, setImgWidth] = useState("800px"); // State to trigger mask reset
   const [imgHeight, setImgHeight] = useState("600px"); // State to trigger mask reset
 
@@ -165,36 +169,9 @@ const ColorVisualiser = (props: any) => {
         formData
       );
 
-      console.log(res);
+      setInitialMasks(JSON.parse(res?.data?.yolo_results.replace(/'/g, '"')));
 
-      setImgWidth(`${res?.data?.yolo_results?.img_width}px`);
-      setImgHeight(`${res?.data?.yolo_results?.img_height}px`);
-
-      // Fix parsing by replacing ' and Python booleans with valid JSON format
-      const data = JSON.parse(
-        res?.data?.yolo_results
-          .replace(/'/g, '"')
-          .replace(/False/g, "false")
-          .replace(/True/g, "true")
-      );
-
-      // Check if masks are available and map to the desired format
-      const initialMasks =
-        data?.masks?.map((mask: Mask) => ({
-          x: mask.x,
-          y: mask.y,
-          width: mask.width,
-          height: mask.height,
-          filled: mask.filled,
-        })) || [];
-
-      setInitialMasks(initialMasks);
-
-      console.log("masks: ", initialMasks);
-
-      setTimeout(() => {
-        handleCloseModal();
-      }, 2000);
+      handleCloseModal();
     } catch (e) {
       console.log("error-message: " + (e as Error)?.message);
       console.log("error: " + e);
@@ -209,57 +186,6 @@ const ColorVisualiser = (props: any) => {
       console.log(e);
     }
   };
-
-  // const getImageEmbedding = async (file: any) => {
-  //   handleShowModal();
-  //   setType(false);
-  //   const formData = new FormData();
-  //   formData.append("file", file);
-  //   await loadImage(file);
-  //   await scrollTo(0, 0);
-  //   try {
-  //     const res = await axios.post(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/upload/`,
-  //       formData
-  //     );
-
-  //     console.log(res);
-
-  //     // Parse the yolo_results as JSON
-  //     const data = JSON.parse(res?.data?.yolo_results.replace(/'/g, '"')); // Ensure proper JSON format
-
-  //     // Check if masks are available and map to the desired format
-  //     const initialMasks =
-  //       data?.masks?.map((mask) => ({
-  //         x: mask.x,
-  //         y: mask.y,
-  //         width: mask.width,
-  //         height: mask.height,
-  //         filled: mask.filled,
-  //       })) || [];
-
-  //     setInitialMasks(initialMasks);
-
-  //     console.log("masks: ", initialMasks);
-
-  //     setTimeout(() => {
-  //       handleCloseModal();
-  //     }, 2000);
-  //   } catch (e) {
-  //     console.log("error-message: " + e.message);
-  //     console.log("error: " + e);
-  //     handleCloseModal();
-  //     setError(
-  //       "Currently we are facing some issues, Try from one of our preloaded images"
-  //     );
-  //     setFile(null);
-  //     setTimeout(() => {
-  //       setError(null);
-  //     }, 2000);
-  //     console.log(e);
-  //   }
-  // };
-
   const loadImage = async (imageFile: any) => {
     try {
       const img = document.createElement("img"); // create a new image object
@@ -606,13 +532,6 @@ const ColorVisualiser = (props: any) => {
     boxShadow: theme.shadows[3],
   }));
 
-  // const imageSrc = "/images/home-pic.jpg";
-  const initialMaskes = [
-    { x: 50, y: 100, width: 200, height: 150, filled: false },
-    { x: 300, y: 200, width: 250, height: 100, filled: false },
-    { x: 600, y: 300, width: 150, height: 200, filled: false },
-  ];
-
   return (
     <>
       <div className={`${file ? "colorvisualiser" : ""} py-5 pb-5`}>
@@ -681,13 +600,9 @@ const ColorVisualiser = (props: any) => {
               <div className="row m-0 p-0 align-items-center">
                 {/* left side  */}
                 <div className="col-12 col-lg-8 colorvisualiser__container__left d-flex justify-content-center">
-                  <ImageWithMasks
-                    imageSrc={image?.src}
-                    initialMasks={initialMasks}
-                    selectedColor={selectedColor}
-                    resetMasks={resetMasks}
-                    imgWidth={800}
-                    imgHeight={600}
+                  <ImageMaskOverlay
+                    imgSrc={image?.src}
+                    maskData={initialMasks}
                   />
                 </div>
 
