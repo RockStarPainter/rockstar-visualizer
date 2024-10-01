@@ -1,1 +1,94 @@
-if(!self.define){let e,s={};const a=(a,i)=>(a=new URL(a+".js",i).href,s[a]||new Promise((s=>{if("document"in self){const e=document.createElement("script");e.src=a,e.onload=s,document.head.appendChild(e)}else e=a,importScripts(a),s()})).then((()=>{let e=s[a];if(!e)throw new Error(`Module ${a} didn’t register its module`);return e})));self.define=(i,n)=>{const c=e||("document"in self?document.currentScript.src:"")||location.href;if(s[c])return;let t={};const r=e=>a(e,c),d={module:{uri:c},exports:t,require:r};s[c]=Promise.all(i.map((e=>d[e]||r(e)))).then((e=>(n(...e),t)))}}define(["./workbox-c06b064f"],(function(e){"use strict";importScripts(),self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"/Paint_Visualizer_7becb7495b.mp4",revision:"07f3676f9009963491ca22df47e0b525"},{url:"/_next/static/T7BgFkbXBjXt13AHXOk-F/_buildManifest.js",revision:"18b3a4bdc372c668d2ade5d7d19562bc"},{url:"/_next/static/T7BgFkbXBjXt13AHXOk-F/_ssgManifest.js",revision:"b6652df95db52feb4daf4eca35380933"},{url:"/_next/static/chunks/1bfc9850-711886947698fce7.js",revision:"711886947698fce7"},{url:"/_next/static/chunks/220-b51f8b7afa109d14.js",revision:"b51f8b7afa109d14"},{url:"/_next/static/chunks/252f366e-51e7c2c3da4a6640.js",revision:"51e7c2c3da4a6640"},{url:"/_next/static/chunks/2cca2479-efc8428c11607cc9.js",revision:"efc8428c11607cc9"},{url:"/_next/static/chunks/400-6c3a63d082265108.js",revision:"6c3a63d082265108"},{url:"/_next/static/chunks/455-0616892446161b81.js",revision:"0616892446161b81"},{url:"/_next/static/chunks/484-5ee1f0e3f44aa69f.js",revision:"5ee1f0e3f44aa69f"},{url:"/_next/static/chunks/550-6bffd47617414080.js",revision:"6bffd47617414080"},{url:"/_next/static/chunks/557-24e3076135a82a07.js",revision:"24e3076135a82a07"},{url:"/_next/static/chunks/80-271285d7a196f21e.js",revision:"271285d7a196f21e"},{url:"/_next/static/chunks/811.b79d446c916cad49.js",revision:"b79d446c916cad49"},{url:"/_next/static/chunks/95b64a6e-9acb869ef13db122.js",revision:"9acb869ef13db122"},{url:"/_next/static/chunks/framework-4d7cfc468d4fac6d.js",revision:"4d7cfc468d4fac6d"},{url:"/_next/static/chunks/main-801acd75d9d87c90.js",revision:"801acd75d9d87c90"},{url:"/_next/static/chunks/pages/_app-6d407059735522d3.js",revision:"6d407059735522d3"},{url:"/_next/static/chunks/pages/_error-77823ddac6993d35.js",revision:"77823ddac6993d35"},{url:"/_next/static/chunks/pages/about-cd3ab91892f6016b.js",revision:"cd3ab91892f6016b"},{url:"/_next/static/chunks/pages/colorvisualiser-261c277d5dc56e63.js",revision:"261c277d5dc56e63"},{url:"/_next/static/chunks/pages/contact-599e0390d7deac68.js",revision:"599e0390d7deac68"},{url:"/_next/static/chunks/pages/detection-canvas-407c1b7876401899.js",revision:"407c1b7876401899"},{url:"/_next/static/chunks/pages/index-c67a32636fcd7967.js",revision:"c67a32636fcd7967"},{url:"/_next/static/chunks/pages/order-paints-0a0bf6404dbaa2b4.js",revision:"0a0bf6404dbaa2b4"},{url:"/_next/static/chunks/pages/paint-brands-f58e23ab4fce33b9.js",revision:"f58e23ab4fce33b9"},{url:"/_next/static/chunks/polyfills-42372ed130431b0a.js",revision:"846118c33b2c0e922d7b3a7676f81f6f"},{url:"/_next/static/chunks/webpack-d9a816d6ed1d176e.js",revision:"d9a816d6ed1d176e"},{url:"/_next/static/css/46b9f2cb51cec213.css",revision:"46b9f2cb51cec213"},{url:"/_next/static/css/4ca0f1f8e2e4997d.css",revision:"4ca0f1f8e2e4997d"},{url:"/_next/static/css/d4858c4db224dee8.css",revision:"d4858c4db224dee8"},{url:"/compare.png",revision:"37ecfb29f211ea514f351fd72e01f5e0"},{url:"/image_embedding/about_embedding.npy",revision:"11c5d99056b996045ed56dec37e49068"},{url:"/image_embedding/babyroom_embedding.npy",revision:"5b4cffed78b15c3c29e1b8eb2461137f"},{url:"/image_embedding/color_embedding.npy",revision:"6d246deabf2e231fc234583e95fdbae1"},{url:"/image_embedding/cozy_embedding.npy",revision:"12f341cb9a5782b8644d854b20dfc497"},{url:"/image_embedding/gondola_embedding.npy",revision:"ec619a2797a8a4bad73f531fe9faf2c1"},{url:"/image_embedding/lakeshore_embedding.npy",revision:"172d7eba73b6f30851f8097ecb18dfa6"},{url:"/image_embedding/light_embedding.npy",revision:"a55e7c9d539594aba42e31807a41c792"},{url:"/image_embedding/living_embedding.npy",revision:"6840282c306db99cf582f6926155f452"},{url:"/image_embedding/mountain_embedding.npy",revision:"d97e4f9e065bf9b28ed87a77eb1fc368"},{url:"/image_embedding/oasis_embedding.npy",revision:"779663fece507be5c3705c3cbe090736"},{url:"/image_embedding/sofa_embedding.npy",revision:"1fb0a13a09dd5f426bd6bb3c252e9982"},{url:"/image_embedding/woods_embedding.npy",revision:"f1a4ef1381bfff17b2c314702059adb0"},{url:"/images/about.jpg",revision:"c1fc719dc296f8ef36157d397de55ccd"},{url:"/images/baby-room.jpg",revision:"798f7e91d81c081ed243ea49a3c365ee"},{url:"/images/benjamin-logo.png",revision:"5f6f502673024e4f2f89c23a8257cdb8"},{url:"/images/color.jpg",revision:"270a5c36f860864d78384f6172bb2c38"},{url:"/images/cozy.jpg",revision:"b7126f6fd4a7a6bfd88c92a48103d1c0"},{url:"/images/download.png",revision:"0ea11afec0fb0b9b3779d4c09b4f48fa"},{url:"/images/gondola.jpg",revision:"e38d4acfcc6809f173c5a47e2b151fe5"},{url:"/images/home-pic.jpg",revision:"3d4b9ebd4168c433b995131c4017509c"},{url:"/images/lakeshore.jpg",revision:"54ae1b4e3b36f226944d049ddd9d21f6"},{url:"/images/light.png",revision:"b4afe1ff68bc584310234138868dfbc1"},{url:"/images/living.jpg",revision:"a893bd8ef3c8b15a2b5526a1a963563a"},{url:"/images/mountain.jpg",revision:"fb7e2daf169ec2b6c954a0a2bf07ad13"},{url:"/images/oasis.jpg",revision:"ff338156e180f592d72bd99565fa222b"},{url:"/images/pinewood.jpg",revision:"1c9b0bc9500540d15e7010137493e3ff"},{url:"/images/rockstar-logo.png",revision:"904425f6777d8758fa8216bc39f23852"},{url:"/images/sherwin-logo.png",revision:"cc17d986ab7e0755f44fed15ea40af7a"},{url:"/images/sofa.jpg",revision:"cd137bf8b78d8650ba0096e8e9827565"},{url:"/images/woods.jpg",revision:"2df50afec8b5d91574279afd50a8a6c3"},{url:"/logo.jpg",revision:"8b54e7e2a07350746a164f3d6caca5cf"},{url:"/logo192.jpg",revision:"04278e263727dbab752d0fed3819fbbb"},{url:"/logo384.jpg",revision:"798a93b0e45e7e7511a8763bf0380097"},{url:"/logo512.jpg",revision:"e12a7e1a3a3aee4836827452f75a792a"},{url:"/manifest.json",revision:"98361648260e6104a580a974b11c8452"},{url:"/paints/index.ts",revision:"4682bdc68ff301a9ca9b1a4a177e557a"},{url:"/swe-worker-4da67dda9bc18c53.js",revision:"5a47d90db13bb1309b25bdf7b363570e"},{url:"/textures/texture1.jpg",revision:"dd7b2cfd34a385d23cbfa0bf8df7793e"},{url:"/textures/texture10.jpg",revision:"2081c040df37e62c754b5001b85f6995"},{url:"/textures/texture11.jpg",revision:"530b064b11eb26c95a0d6cd6cb7a0882"},{url:"/textures/texture12.jpg",revision:"32952b754aee27f7779774ab9aba9480"},{url:"/textures/texture13.jpg",revision:"9ba499677d1591327a7eca18f876deb5"},{url:"/textures/texture14.jpg",revision:"1ab10310d015991f7917d5e227c04e9b"},{url:"/textures/texture15.jpg",revision:"e421c7802c69728ce7f623e1f2c6ae19"},{url:"/textures/texture16.jpg",revision:"9652a773804859df8c0ea19cb83f701b"},{url:"/textures/texture2.jpg",revision:"52a92119bb0240397bfc39de302f6aa1"},{url:"/textures/texture3.jpg",revision:"c8f5f180a2c15b373afa0d6695cd406b"},{url:"/textures/texture4.jpg",revision:"6ce5d89dd7edf0ee917e76e43ed4f542"},{url:"/textures/texture5.jpg",revision:"ba2f8040a2fc1d1d525aee6e3c5b44db"},{url:"/textures/texture6.jpg",revision:"e4499e5c6ef07c5d5461dd6a059a027e"},{url:"/textures/texture7.jpg",revision:"895143ff2c8abe42c8ac7e71849768f8"},{url:"/textures/texture8.jpg",revision:"562009ce761e9706fa53dcfa980a116b"},{url:"/textures/texture9.jpg",revision:"e32cec81982bfe8ee7a8f5ffe1e7e6a7"},{url:"/videos/Color Painting Wall Service.mp4",revision:"017b846bdaf75472a7d28b693075328b"},{url:"/videos/Color Palette (1).mp4",revision:"aa9c8db1d0621e18984583f7b007e135"},{url:"/videos/Color Palette (2).mp4",revision:"3d91819c37340df490e01c21bb11bf77"},{url:"/videos/Color Palette.mp4",revision:"c89de6977dd7c71498a1d2acc74087e9"},{url:"/videos/about-us-rockstar.mp4",revision:"7d2e27dfe9c71347c88ed8a59dcc4149"},{url:"/videos/boy is painting a house with paint roller.mp4",revision:"5cd9a0b5a167dd5074e8952f6ce2fc99"}],{ignoreURLParametersMatching:[/^utm_/,/^fbclid$/]}),e.cleanupOutdatedCaches(),e.registerRoute("/",new e.NetworkFirst({cacheName:"start-url",plugins:[{cacheWillUpdate:async({response:e})=>e&&"opaqueredirect"===e.type?new Response(e.body,{status:200,statusText:"OK",headers:e.headers}):e}]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-webfonts",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:31536e3})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:googleapis)\.com\/.*/i,new e.StaleWhileRevalidate({cacheName:"google-fonts-stylesheets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,new e.StaleWhileRevalidate({cacheName:"static-font-assets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,new e.StaleWhileRevalidate({cacheName:"static-image-assets",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:2592e3})]}),"GET"),e.registerRoute(/\/_next\/static.+\.js$/i,new e.CacheFirst({cacheName:"next-static-js-assets",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/image\?url=.+$/i,new e.StaleWhileRevalidate({cacheName:"next-image",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp3|wav|ogg)$/i,new e.CacheFirst({cacheName:"static-audio-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp4|webm)$/i,new e.CacheFirst({cacheName:"static-video-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:js)$/i,new e.StaleWhileRevalidate({cacheName:"static-js-assets",plugins:[new e.ExpirationPlugin({maxEntries:48,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:css|less)$/i,new e.StaleWhileRevalidate({cacheName:"static-style-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/data\/.+\/.+\.json$/i,new e.StaleWhileRevalidate({cacheName:"next-data",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:json|xml|csv)$/i,new e.NetworkFirst({cacheName:"static-data-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({sameOrigin:e,url:{pathname:s}})=>!(!e||s.startsWith("/api/auth/callback")||!s.startsWith("/api/"))),new e.NetworkFirst({cacheName:"apis",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:16,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({request:e,url:{pathname:s},sameOrigin:a})=>"1"===e.headers.get("RSC")&&"1"===e.headers.get("Next-Router-Prefetch")&&a&&!s.startsWith("/api/")),new e.NetworkFirst({cacheName:"pages-rsc-prefetch",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({request:e,url:{pathname:s},sameOrigin:a})=>"1"===e.headers.get("RSC")&&a&&!s.startsWith("/api/")),new e.NetworkFirst({cacheName:"pages-rsc",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({url:{pathname:e},sameOrigin:s})=>s&&!e.startsWith("/api/")),new e.NetworkFirst({cacheName:"pages",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({sameOrigin:e})=>!e),new e.NetworkFirst({cacheName:"cross-origin",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:3600})]}),"GET"),self.__WB_DISABLE_DEV_LOGS=!0}));
+/**
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// If the loader is already loaded, just stop.
+if (!self.define) {
+  let registry = {};
+
+  // Used for `eval` and `importScripts` where we can't get script URL by other means.
+  // In both cases, it's safe to use a global var because those functions are synchronous.
+  let nextDefineUri;
+
+  const singleRequire = (uri, parentUri) => {
+    uri = new URL(uri + ".js", parentUri).href;
+    return registry[uri] || (
+      
+        new Promise(resolve => {
+          if ("document" in self) {
+            const script = document.createElement("script");
+            script.src = uri;
+            script.onload = resolve;
+            document.head.appendChild(script);
+          } else {
+            nextDefineUri = uri;
+            importScripts(uri);
+            resolve();
+          }
+        })
+      
+      .then(() => {
+        let promise = registry[uri];
+        if (!promise) {
+          throw new Error(`Module ${uri} didn’t register its module`);
+        }
+        return promise;
+      })
+    );
+  };
+
+  self.define = (depsNames, factory) => {
+    const uri = nextDefineUri || ("document" in self ? document.currentScript.src : "") || location.href;
+    if (registry[uri]) {
+      // Module is already loading or loaded.
+      return;
+    }
+    let exports = {};
+    const require = depUri => singleRequire(depUri, uri);
+    const specialDeps = {
+      module: { uri },
+      exports,
+      require
+    };
+    registry[uri] = Promise.all(depsNames.map(
+      depName => specialDeps[depName] || require(depName)
+    )).then(deps => {
+      factory(...deps);
+      return exports;
+    });
+  };
+}
+define(['./workbox-7144475a'], (function (workbox) { 'use strict';
+
+  importScripts();
+  self.skipWaiting();
+  workbox.clientsClaim();
+  workbox.registerRoute("/", new workbox.NetworkFirst({
+    "cacheName": "start-url",
+    plugins: [{
+      cacheWillUpdate: async ({
+        response: e
+      }) => e && "opaqueredirect" === e.type ? new Response(e.body, {
+        status: 200,
+        statusText: "OK",
+        headers: e.headers
+      }) : e
+    }]
+  }), 'GET');
+  workbox.registerRoute(/.*/i, new workbox.NetworkOnly({
+    "cacheName": "dev",
+    plugins: []
+  }), 'GET');
+  self.__WB_DISABLE_DEV_LOGS = true;
+
+}));
+//# sourceMappingURL=sw.js.map
