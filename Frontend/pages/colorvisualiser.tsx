@@ -171,7 +171,9 @@ const ColorVisualiser = (props: any) => {
 
       setInitialMasks(JSON.parse(res?.data?.yolo_results.replace(/'/g, '"')));
 
-      handleCloseModal();
+      setTimeout(() => {
+        handleCloseModal();
+      }, 1000);
     } catch (e) {
       console.log("error-message: " + (e as Error)?.message);
       console.log("error: " + e);
