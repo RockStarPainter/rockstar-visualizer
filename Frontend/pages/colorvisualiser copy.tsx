@@ -64,7 +64,6 @@ import PaintSelectionPage from "./paint-brands";
 import { useColorContext } from "../contexts/ColorContext";
 import ImageWithMasks from "./detection-canvas";
 import WallOverlay from "./detection-canvas";
-import ImageMaskOverlay from "./detection-canvas";
 
 const ColorVisualiser = (props: any) => {
   // const [color, setColor] = useColor("hex", "#121212");
@@ -106,9 +105,7 @@ const ColorVisualiser = (props: any) => {
   const handleShowShareModal = () => setShowShareModal(true);
   const handleCloseShareModal = () => setShowShareModal(false);
   const [resetMasks, setResetMasks] = useState(false); // State to trigger mask reset
-  const [initialMasks, setInitialMasks] = useState<any>(); // State to trigger mask reset
-  const [maskData, setMaskData] = useState(null);
-
+  const [initialMasks, setInitialMasks] = useState(); // State to trigger mask reset
   const [imgWidth, setImgWidth] = useState("800px"); // State to trigger mask reset
   const [imgHeight, setImgHeight] = useState("600px"); // State to trigger mask reset
 
@@ -165,7 +162,23 @@ const ColorVisualiser = (props: any) => {
         formData
       );
 
-      setInitialMasks(JSON.parse(res?.data?.yolo_results.replace(/'/g, '"')));
+      // Check if the response data includes 'yolo_results' and it's in the expected format
+      if (res.data && res.data.yolo_results) {
+        const yoloResults = JSON.parse(res?.data?.yolo_results);
+
+        // Check if 'masks' exists and is an array
+        if (yoloResults.masks && Array.isArray(yoloResults.masks)) {
+          setInitialMasks(yoloResults.masks);
+
+          console.log("Masks set:", initialMasks);
+        } else {
+          console.error(
+            "Masks data is missing or not in expected array format"
+          );
+        }
+      } else {
+        console.error("No 'yolo_results' found or in incorrect format");
+      }
 
       handleCloseModal();
     } catch (e) {
@@ -581,20 +594,13 @@ const ColorVisualiser = (props: any) => {
               <div className="row m-0 p-0 align-items-center">
                 {/* left side  */}
                 <div className="col-12 col-lg-8 colorvisualiser__container__left d-flex justify-content-center">
-                  {/* <ImageWithMasks
+                  <ImageWithMasks
                     imageSrc={image?.src}
                     initialMasks={initialMasks}
                     selectedColor={selectedColor}
                     resetMasks={resetMasks}
                     imgWidth={800}
                     imgHeight={600}
-                  /> */}
-
-                  <ImageMaskOverlay
-                    imgSrc={image?.src}
-                    maskData={initialMasks}
-                    selectedColor={selectedColor}
-                    resetMasks={resetMasks}
                   />
                 </div>
 
