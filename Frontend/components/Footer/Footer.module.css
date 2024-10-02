@@ -1,22 +1,21 @@
 /* Footer Container */
 .footer {
   width: 100%;
-  background-color: #f8f9fa; /* Light, modern background */
+  background-color: #000000; /* Black background */
   padding: 40px 0;
-  color: #333;
+  color: #ffffff; /* White text */
 }
 
-/* Footer Container */
 .footer__container {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Split the footer into two equal columns */
+  grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
   gap: 50px;
   align-items: center;
 }
 
-.logo__social {
+.logo__container {
   text-align: center;
 }
 
@@ -33,7 +32,7 @@
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #333;
+  color: #ffffff;
 }
 
 .social__media {
@@ -55,7 +54,7 @@
 }
 
 .social__media a:hover {
-  background-color: #2acfcf;
+  background-color: #2acfcf; /* Light blue hover */
 }
 
 .social__media svg {
@@ -65,59 +64,38 @@
 }
 
 /* Footer Links */
-.footer__links {
+.footer__lists__container {
   display: flex;
   justify-content: space-between;
-  text-align: left;
-}
-
-.footer__list h4 {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-.footer__list ul {
-  list-style: none;
-  padding: 0;
 }
 
 .footer__list li {
+  list-style: none;
   margin-bottom: 0.5rem;
 }
 
 .footer__list li a {
   text-decoration: none;
-  color: #666;
+  color: #ccc;
   transition: color 0.3s ease;
 }
 
 .footer__list li a:hover {
-  color: #2acfcf; /* Light blue hover color */
+  color: #2acfcf;
 }
 
-/* Responsive Layout */
 @media (max-width: 768px) {
   .footer__container {
-    grid-template-columns: 1fr; /* Stack on smaller screens */
+    grid-template-columns: 1fr; /* Stack columns on smaller screens */
     text-align: center;
   }
 
-  .footer__links {
+  .footer__lists__container {
     flex-direction: column;
-    gap: 30px;
-    margin-top: 20px;
+    gap: 20px;
   }
 
-  .footer__list {
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .social__media a {
-    width: 35px;
-    height: 35px;
+  .social__media {
+    justify-content: center;
   }
 }

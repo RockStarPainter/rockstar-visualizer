@@ -71,7 +71,6 @@ import WallOverlay from "./detection-canvas";
 import ImageMaskOverlay from "./detection-canvas";
 
 const ColorVisualiser = (props: any) => {
-  // const [color, setColor] = useColor("hex", "#121212");
   const {
     clicks: [clicks],
     image: [image, setImage],
@@ -111,6 +110,7 @@ const ColorVisualiser = (props: any) => {
   const handleCloseShareModal = () => setShowShareModal(false);
   const [resetMasks, setResetMasks] = useState(false); // State to trigger mask reset
   const [initialMasks, setInitialMasks] = useState<any>(); // State to trigger mask reset
+  const [clearSignal, setClearSignal] = useState(false);
 
   const router = useRouter();
 
@@ -420,6 +420,12 @@ const ColorVisualiser = (props: any) => {
     setResetMasks((prev) => !prev); // Toggle reset state
   };
 
+  // Function to handle the button click and trigger mask clearing
+  const handleClearMasks = () => {
+    setClearSignal(true);
+    setTimeout(() => setClearSignal(false), 100); // Reset the signal after a short delay
+  };
+
   const shareImage = async () => {
     if (
       Capacitor.getPlatform() === "android" ||
@@ -568,6 +574,8 @@ const ColorVisualiser = (props: any) => {
                   <ImageMaskOverlay
                     imgSrc={image?.src}
                     maskData={initialMasks}
+                    selectedColor={selectedColor}
+                    clearMasksSignal={clearSignal} 
                   />
                 </div>
 
@@ -589,7 +597,7 @@ const ColorVisualiser = (props: any) => {
                     <button
                       className="w-100 btn btn-secondary"
                       type="button"
-                      onClick={clearMasks}
+                      onClick={handleClearMasks}
                     >
                       Clear paints
                     </button>

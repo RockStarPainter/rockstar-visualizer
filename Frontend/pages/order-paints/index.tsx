@@ -111,8 +111,10 @@ const OrderPage = () => {
                 placeholder="Enter your first name"
                 isInvalid={!!errors.firstName}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors?.firstName?.message?.toString() || ""}
+              <Form.Control.Feedback className="text-danger" type="invalid">
+                <span style={{ color: "red !important" }}>
+                  {errors?.firstName?.message?.toString() || ""}
+                </span>
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -125,8 +127,10 @@ const OrderPage = () => {
                 placeholder="Enter your last name"
                 isInvalid={!!errors.lastName}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.lastName?.message?.toString() || ""}
+              <Form.Control.Feedback className="text-danger" type="invalid">
+                <span style={{ color: "red !important" }}>
+                  {errors.lastName?.message?.toString() || ""}
+                </span>
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -138,16 +142,17 @@ const OrderPage = () => {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value:
-                      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                     message: "Enter a valid email address",
                   },
                 })}
                 placeholder="Enter your email"
                 isInvalid={!!errors.email}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.email?.message?.toString() || ""}
+              <Form.Control.Feedback className="text-danger" type="invalid">
+                <span style={{ color: "red !important" }}>
+                  {errors.email?.message?.toString() || ""}
+                </span>
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -166,8 +171,10 @@ const OrderPage = () => {
                 <option value="PPG Paint Store">PPG Paint Store</option>
                 <option value="The Home Depot">The Home Depot</option>
               </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {errors?.buyPreference?.message?.toString() || ""}
+              <Form.Control.Feedback className="text-danger" type="invalid">
+                <span style={{ color: "red !important" }}>
+                  {errors?.buyPreference?.message?.toString() || ""}
+                </span>
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -185,8 +192,10 @@ const OrderPage = () => {
                 <option value="Homeowner">Homeowner</option>
                 <option value="Professional">Professional</option>
               </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {errors.whoAreYou?.message?.toString() || ""}
+              <Form.Control.Feedback className="text-danger" type="invalid">
+                <span style={{ color: "red !important" }}>
+                  {errors.whoAreYou?.message?.toString() || ""}
+                </span>
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -205,8 +214,10 @@ const OrderPage = () => {
                 <option value="Canada">Canada</option>
                 <option value="UK">UK</option>
               </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {errors.country?.message?.toString() || ""}
+              <Form.Control.Feedback className="text-danger" type="invalid">
+                <span style={{ color: "red !important" }}>
+                  {errors.country?.message?.toString() || ""}
+                </span>
               </Form.Control.Feedback>
             </Form.Group>
 
