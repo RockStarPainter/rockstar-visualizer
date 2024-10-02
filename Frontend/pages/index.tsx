@@ -31,12 +31,16 @@ const SectionTitle = styled(Typography)(({ theme }) => ({
 }));
 const Headline = styled(Typography)(({ theme }) => ({
   color: "#ffffff",
-  fontSize: "2.5rem",
   fontWeight: "bold",
   textAlign: "center",
   marginBottom: theme.spacing(2),
   zIndex: 5,
+  fontSize: "1.8rem", // Default for small screens
+  [theme.breakpoints.up("md")]: {
+    fontSize: "2.5rem", // For medium and larger screens
+  },
 }));
+
 
 const IntroParagraph = styled(Typography)(({ theme }) => ({
   color: "#f0f0f0",

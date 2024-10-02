@@ -104,20 +104,11 @@ const AboutUs: React.FC = () => {
         </motion.div>
 
         {/* Video Section */}
-        {/* <div className={styles.videoSection}>
+        <div className={styles.videoSection}>
           <video autoPlay loop muted playsInline className={styles.video}>
             <source src="/videos/about-us-rockstar.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-        </div> */}
-        <div className={styles.videoSection}>
-          <Image
-            src="/images/DALL·E 2024-10-02 01.01.21 - Two men standing side by side, both wearing white T-shirts. On the back of their T-shirts, the words 'Rockstar Painting Visualizer' are clearly writte.webp"
-            alt="Two men wearing Rockstar Painting Visualizer T-shirts"
-            className={styles.heroImage}
-            width={500}
-            height={500}
-          />
         </div>
       </div>
     </section>
