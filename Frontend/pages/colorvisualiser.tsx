@@ -111,49 +111,10 @@ const ColorVisualiser = (props: any) => {
   const handleCloseShareModal = () => setShowShareModal(false);
   const [resetMasks, setResetMasks] = useState(false); // State to trigger mask reset
   const [initialMasks, setInitialMasks] = useState<any>(); // State to trigger mask reset
-  const [maskData, setMaskData] = useState(null);
-
-  const [imgWidth, setImgWidth] = useState("800px"); // State to trigger mask reset
-  const [imgHeight, setImgHeight] = useState("600px"); // State to trigger mask reset
 
   const router = useRouter();
 
   const { selectedColors } = useColorContext(); // Use the context
-
-  interface Mask {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    filled: boolean;
-  }
-
-  function parseYoloResponse(responseString: any) {
-    // Step 1: Format the response string to a proper JSON format
-    const formattedResponse = responseString
-      .replace(/'/g, '"') // Replace single quotes with double quotes
-      .replace(/array\((.+?)\)/g, "[$1]"); // Replace array(...) with []
-
-    // Step 2: Parse the formatted string to a JSON object
-    const jsonResponse = JSON.parse(formattedResponse);
-
-    // Step 3: Extract the bounding boxes, confidence, and class IDs
-    const boundingBoxes = jsonResponse.box.xyxy; // This will be an array
-    const confidenceScores = jsonResponse.box.confidence; // This will be an array
-    const classIds = jsonResponse.box.class_id; // This will be an array
-
-    // Step 4: Convert to Float32Array
-    const boundingBoxesArray = new Float32Array(boundingBoxes.flat());
-    const confidenceScoresArray = new Float32Array(confidenceScores);
-    const classIdsArray = new Float32Array(classIds);
-
-    // Return the results as an object
-    return {
-      boundingBoxes: boundingBoxesArray,
-      confidenceScores: confidenceScoresArray,
-      classIds: classIdsArray,
-    };
-  }
 
   const getImageEmbedding = async (file: any) => {
     handleShowModal();
@@ -168,8 +129,10 @@ const ColorVisualiser = (props: any) => {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/upload/`,
         formData
       );
-
       setInitialMasks(JSON.parse(res?.data?.yolo_results.replace(/'/g, '"')));
+
+
+      // setInitialMasks(yoloResultsData);
 
       setTimeout(() => {
         handleCloseModal();
